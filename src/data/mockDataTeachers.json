@@ -1,0 +1,34 @@
+[
+    {
+        "_id": "7632763",
+        "name": "Danilo Barolo",
+        "age": "26",
+        "phone": 491734567733,
+        "location": "Berlin",
+        "instruments": ["electric guitar", "acoustic guitar"],
+        "styles": ["blues", "jazz"],
+        "in_person": true,
+        "online": true,
+        "price": 26,
+        "profile_picture": "images/dan.jpg",
+        "audio": "URL",
+        "video": "URL",
+        "availability": ""
+    },
+    {
+        "_id": "7632763",
+        "name": "Ze Mane",
+        "age": "26",
+        "phone": 491734567733,
+        "location": "Berlin",
+        "instruments": ["electric guitar", "acoustic guitar", "banjo"],
+        "styles": ["blues", "jazz"],
+        "in_person": true,
+        "online": true,
+        "price": 26,
+        "profile_picture": "URL",
+        "audio": "URL",
+        "video": "URL",
+        "availability": ""
+    }
+]

@@ -1,0 +1,17 @@
+{
+    "_id": "9790379",
+    "name": "Dan Bar",
+    "age": "39",
+    "phone": 491727502267,
+    "location": "Berlin",
+    "instruments": ["electric guitar", "acoustic guitar"],
+    "styles": ["rock", "blues", "jazz"],
+    "in_person": true,
+    "online": true,
+    "min_price": 0,
+    "max_price": 50,
+    "profile_picture": "URL",
+    "audio": "",
+    "video": "",
+    "matches": []
+}

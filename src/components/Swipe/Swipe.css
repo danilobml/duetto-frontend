@@ -1,0 +1,39 @@
+.header {
+    justify-self: flex-start;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../../../public/images/silk-texture-pattern-background.jpg');
+}
+
+.card-container {
+    width: 75vw;
+    height: 65vh;
+    border: 1px solid black;
+    border-radius: 1rem;
+    margin: auto;
+    padding: 2rem;
+    text-align: center;
+    background-color: rgb(245, 240, 234);
+    opacity: 0.8;
+}
+
+.card-container ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.card-container img {
+    width: 30vw
+}
+
+.card-container h4{
+    margin-bottom: 0;
+    margin-top: 5px;
+}
