@@ -6,17 +6,21 @@ import SwipeScreen from "./components/SwipeScreen/SwipeScreen";
 
 import serverUrl from "./serverUrl";
 import MatchScreen from "./components/MatchScreen.js/MatchScreen";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 const axios = require("axios");
 
 const initialState = {
   loggedUser: {},
   teachersData: [],
+  matches: [],
   selectedTeacher: "",
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
+    //     "APPROVE_TEACHER"
+    // REJECTED_TEACHER
     case "SET_TEACHER":
       const teacher = action.payload;
       return { ...state, selectedTeacher: teacher };
@@ -57,6 +61,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SwipeScreen dispatch={dispatch} />} />
           <Route path="/match" element={<MatchScreen />} />
+          <Route path="/user" element={<UserProfile />} />
         </Routes>
       </UserContext.Provider>
     </div>

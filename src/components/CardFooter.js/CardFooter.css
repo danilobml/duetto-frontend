@@ -1,0 +1,42 @@
+.footer-div {
+    display: flex;
+    width: 220px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.arrow-icon {
+    justify-self: center;
+    margin-bottom: 0.6rem;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer{
+    position:absolute;
+    top: 500px;
+    left: 50px;
+}
+
+ button {
+    transition: 200ms;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.10);
+  }
+
+button:hover {
+  transform: scale(1.05);
+}
+
+  
+  @keyframes popup {
+    0%   { transform: scale(1,1) }
+    10%  { transform: scale(1.1,1.1) }
+    30%  { transform: scale(.9,.9) }
+    50%  { transform: scale(1,1) }
+    57%  { transform: scale(1,1) }
+    64%  { transform: scale(1,1) }
+    100% { transform: scale(1,1) }
+  }

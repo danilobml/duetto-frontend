@@ -1,0 +1,13 @@
+div.user-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: start;
+    padding: 2.5rem;
+}
+
+.user-pic {
+    width: 200px;
+    align-self: center;
+    margin-bottom: 2rem;
+}

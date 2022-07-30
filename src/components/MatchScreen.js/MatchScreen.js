@@ -1,19 +1,25 @@
-import { useContext } from "react";
+import "./MatchScreen.css";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../UserContext";
 
 function MatchScreen() {
   const data = useContext(UserContext);
-  console.log(data);
   const teacherName = data[0].selectedTeacher;
-  console.log(teacherName);
+  const userName = data[0].loggedUser.name;
+
+  const navigate = useNavigate();
 
   if (!teacherName) {
     return "Loading...";
   }
 
   return (
-    <div>
-      <h1>You've matched with: {teacherName}</h1>
+    <div className="match-main" onClick={() => navigate(-1)}>
+      <h1 className="match-names">
+        You, {userName}, have matched with: {teacherName}!
+      </h1>
+      <h2>Click to go back</h2>
     </div>
   );
 }

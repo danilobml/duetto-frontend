@@ -1,3 +1,19 @@
+.header-div {
+    display: flex;
+    justify-content: space-between;
+    width: 320px;
+    padding: 0 15px;
+    padding-top: 0px;
+}
+
 .icon {
-    width: 60px;
+    width: 90px;
+    height: 40px;
+    align-self: center;
+}
+
+.user-image {
+    width: 45px;
+    align-self: center;
+    margin-top: 1.5rem;
 }

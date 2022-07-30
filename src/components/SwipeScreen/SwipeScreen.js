@@ -1,37 +1,66 @@
 import "./SwipeScreen.css";
-import { useContext } from "react";
-import TinderCard from "react-tinder-card";
+import React, { useContext, useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Markup } from "react-render-markup";
 
 import UserContext from "../UserContext";
+
+import SwipeCard from "../SwipeCard/SwipeCard";
 import Header from "../Header/Header";
+import CardFooter from "../CardFooter.js/CardFooter";
 
 function SwipeScreen({ dispatch }) {
   const data = useContext(UserContext);
-
-  console.log(data);
-
+  console.log(data, data[0]);
   const teachersData = data[0].teachersData;
+  const [reveal, setReveal] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(teachersData.length - 1);
+  console.log({ reveal, currentIndex, teachersData });
+  const [lastDirection, setLastDirection] = useState();
+  const currentIndexRef = useRef(currentIndex);
+
+  useEffect(() => {
+    setCurrentIndex(teachersData.length - 1);
+  }, [teachersData]);
+
+  console.log(reveal);
 
   const navigate = useNavigate();
 
-  const swiped = (direction, teacherName) => {
+  const childRefs = useMemo(
+    () =>
+      Array(teachersData.length)
+        .fill(0)
+        .map((i) => React.createRef()),
+    [teachersData.length]
+  );
+
+  const updateCurrentIndex = (val) => {
+    setCurrentIndex(val);
+    currentIndexRef.current = val;
+  };
+
+  const swiped = (direction, teacherName = "none", index) => {
     if (direction === "right") {
+      setLastDirection(direction);
+      updateCurrentIndex(index - 1);
       const teacher = teacherName;
       dispatch({ type: "SET_TEACHER", payload: teacher });
       navigate("/match");
     }
-    // if (direction === "left") {
-    //   const dataTeacher = teacherData.name;
-    //   dispatch({ type: "SET_TEACHER", payload: dataTeacher });
-    //   navigate("/match");
-    // }
+    if (direction === "left") {
+      setLastDirection(direction);
+      updateCurrentIndex(index - 1);
+      dispatch({ type: "SET_TEACHER", payload: "" });
+    }
     console.log(direction, teacherName);
   };
 
-  const onCardLeftScreen = (myIdentifier) => {
-    console.log(myIdentifier + " left the screen");
+  const canSwipe = currentIndex >= 0;
+
+  const swipe = async (dir) => {
+    if (canSwipe && currentIndex < teachersData.length) {
+      await childRefs[currentIndex].current.swipe(dir);
+    }
   };
 
   if (!teachersData) {
@@ -43,49 +72,13 @@ function SwipeScreen({ dispatch }) {
       <Header className="head" />
       <div className="cardContainer">
         {teachersData &&
-          teachersData.map((teacher) => (
-            <TinderCard className="swipe" key={teacher._id} onSwipe={(dir) => swiped(dir, teacher.name)} onCardLeftScreen={() => console.log(`${teacher.name} is out of frame`)} preventSwipe={["up", "down"]}>
-              <iframe style={{ position: "fixed" }} width="90%" height="550px" src={`https://www.youtube.com/embed/${teacher.video}?modestbranding=1&autohide=1&showinfo=0&controls=0&fs=0`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;"></iframe>
-              <h4 id="name">{teacher.name}</h4>
-              <h4>Teaches:</h4>
-              <ul>
-                {teacher.instruments.map((instrument, index) => {
-                  return <li key={index}>{instrument}</li>;
-                })}
-              </ul>
-              <h4>Styles: </h4>
-              <ul>
-                {teacher.styles.map((style, index) => {
-                  return <li key={index}>{style}</li>;
-                })}
-              </ul>
-              <h4>Located in: {teacher.location}</h4>
-              <h4>
-                Classes: {teacher.online && "Online"} {teacher.online && teacher.in_person && "/"} {teacher.in_person && "In person"}
-              </h4>
-              <h4>Price: {teacher.price} Euros/hour</h4>
-            </TinderCard>
-            //   <TinderCard className="swipe" key={teacher._id} onSwipe={(dir) => swiped(dir, teacher.name)} onCardLeftScreen={() => console.log(`${teacher.name} is out of frame`)} preventSwipe={["up", "down"]}>
-            //   <Markup markup={teacher.video} />
-            //   <h4 id="name">{teacher.name}</h4>
-            //   <h4>Teaches:</h4>
-            //   <ul>
-            //     {teacher.instruments.map((instrument, index) => {
-            //       return <li key={index}>{instrument}</li>;
-            //     })}
-            //   </ul>
-            //   <h4>Styles: </h4>
-            //   <ul>
-            //     {teacher.styles.map((style, index) => {
-            //       return <li key={index}>{style}</li>;
-            //     })}
-            //   </ul>
-            //   <h4>Located in: {teacher.location}</h4>
-            //   <h4>
-            //     Classes: {teacher.online && "Online"} {teacher.online && teacher.in_person && "/"} {teacher.in_person && "In person"}
-            //   </h4>
-            //   <h4>Price: {teacher.price} Euros/hour</h4>
-            // </TinderCard>
+          teachersData.map((teacher, index) => (
+            <>
+              <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher.name, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} />
+              <div className="footer">
+                <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} />
+              </div>
+            </>
           ))}
       </div>
     </div>
