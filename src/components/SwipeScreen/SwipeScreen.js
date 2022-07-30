@@ -17,6 +17,7 @@ function SwipeScreen({ dispatch }) {
   console.log({ reveal, currentIndex, teachersData });
   const [lastDirection, setLastDirection] = useState();
   const currentIndexRef = useRef(currentIndex);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     setCurrentIndex(teachersData.length - 1);
@@ -74,9 +75,9 @@ function SwipeScreen({ dispatch }) {
         {teachersData &&
           teachersData.map((teacher, index) => (
             <>
-              <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher.name, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} />
+              <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher.name, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} />
               <div className="footer">
-                <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} />
+                <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} playing={playing} setPlaying={setPlaying} />
               </div>
             </>
           ))}

@@ -2,7 +2,7 @@ import "./CardFooter.css";
 import downIcon from "../../images/arrow-down.svg";
 import upIcon from "../../images/arrow-up.svg";
 
-function CardFooter({ setReveal, reveal, swipe, teacherName, index }) {
+function CardFooter({ setReveal, reveal, swipe, playing, setPlaying }) {
   return (
     <div className="footer-div">
       <button
@@ -17,10 +17,16 @@ function CardFooter({ setReveal, reveal, swipe, teacherName, index }) {
       </button>
       <div className="center">
         {!reveal ? <img className="arrow-icon" onClick={() => setReveal(!reveal)} src={upIcon} style={{ width: "30px", alignSelf: "center" }} /> : <img className="arrow-icon" onClick={() => setReveal(!reveal)} src={downIcon} style={{ width: "30px", alignSelf: "center" }} />}
-        <button className="p-0 w-16 h-13 bg-gray-600 rounded-full hover:bg-gray-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="25" viewBox="-2 0 15 15" fill="none">
-            <path d="M9.375 11.875C9.03125 11.875 8.73708 11.7527 8.4925 11.5081C8.2475 11.2631 8.125 10.9688 8.125 10.625V4.375C8.125 4.03125 8.2475 3.73708 8.4925 3.4925C8.73708 3.2475 9.03125 3.125 9.375 3.125H10.625C10.9688 3.125 11.2631 3.2475 11.5081 3.4925C11.7527 3.73708 11.875 4.03125 11.875 4.375V10.625C11.875 10.9688 11.7527 11.2631 11.5081 11.5081C11.2631 11.7527 10.9688 11.875 10.625 11.875H9.375ZM4.375 11.875C4.03125 11.875 3.73708 11.7527 3.4925 11.5081C3.2475 11.2631 3.125 10.9688 3.125 10.625V4.375C3.125 4.03125 3.2475 3.73708 3.4925 3.4925C3.73708 3.2475 4.03125 3.125 4.375 3.125H5.625C5.96875 3.125 6.26313 3.2475 6.50813 3.4925C6.75271 3.73708 6.875 4.03125 6.875 4.375V10.625C6.875 10.9688 6.75271 11.2631 6.50813 11.5081C6.26313 11.7527 5.96875 11.875 5.625 11.875H4.375Z" fill="white" />
-          </svg>
+        <button onClick={() => setPlaying(!playing)} className="p-0 w-16 h-13 bg-gray-600 rounded-full hover:bg-gray-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
+          {playing ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="25" viewBox="-2 0 15 15" fill="none">
+              <path d="M9.375 11.875C9.03125 11.875 8.73708 11.7527 8.4925 11.5081C8.2475 11.2631 8.125 10.9688 8.125 10.625V4.375C8.125 4.03125 8.2475 3.73708 8.4925 3.4925C8.73708 3.2475 9.03125 3.125 9.375 3.125H10.625C10.9688 3.125 11.2631 3.2475 11.5081 3.4925C11.7527 3.73708 11.875 4.03125 11.875 4.375V10.625C11.875 10.9688 11.7527 11.2631 11.5081 11.5081C11.2631 11.7527 10.9688 11.875 10.625 11.875H9.375ZM4.375 11.875C4.03125 11.875 3.73708 11.7527 3.4925 11.5081C3.2475 11.2631 3.125 10.9688 3.125 10.625V4.375C3.125 4.03125 3.2475 3.73708 3.4925 3.4925C3.73708 3.2475 4.03125 3.125 4.375 3.125H5.625C5.96875 3.125 6.26313 3.2475 6.50813 3.4925C6.75271 3.73708 6.875 4.03125 6.875 4.375V10.625C6.875 10.9688 6.75271 11.2631 6.50813 11.5081C6.26313 11.7527 5.96875 11.875 5.625 11.875H4.375Z" fill="white" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="60" height="25" preserveAspectRatio="xMidYMid meet" viewBox="-2 0 16 16">
+              <path fill="white" d="m11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+            </svg>
+          )}
         </button>
       </div>
       <button

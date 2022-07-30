@@ -1,38 +1,16 @@
 import "./SwipeCard.css";
 import TinderCard from "react-tinder-card";
-import { useRef } from "react";
+import ReactPlayer from "react-player";
+import { useState } from "react";
 
-function SwipeCard({ childRefs, onSwipe, teacher, reveal, index }) {
-  const videoRef = useRef(null);
-
-  const mouseClickEvents = ["mousedown", "click", "mouseup"];
-  function simulateMouseClick(element) {
-    console.log(element);
-    mouseClickEvents.forEach((mouseEventType) =>
-      element.dispatchEvent(
-        new MouseEvent(mouseEventType, {
-          view: window,
-          bubbles: true,
-          cancelable: true,
-          buttons: 1,
-        })
-      )
-    );
-  }
-
-  const generateClick = (e) => {
-    e.preventDefault();
-    videoRef.current.click();
-    console.log(videoRef.current);
-  };
-
+function SwipeCard({ childRefs, onSwipe, teacher, reveal, index, playing, setPlaying }) {
   return (
     <>
       <div
         className="overlay-play"
         style={{ zIndex: 9999 }}
-        onClick={(e) => {
-          generateClick(e);
+        onClick={() => {
+          setPlaying(!playing);
         }}
       ></div>
       <TinderCard className="swipe" ref={childRefs[index]} onSwipe={onSwipe} preventSwipe={["up", "down"]}>
@@ -62,7 +40,7 @@ function SwipeCard({ childRefs, onSwipe, teacher, reveal, index }) {
             ""
           )}
         </div>
-        {index < 2 ? <iframe ref={videoRef} style={{ borderRadius: "40px", position: "fixed", maxWidth: "330px", minWidth: "330px" }} width="90%" height="550px" src={`https://www.youtube.com/embed/${teacher.video}?controls=0`} title="YouTube video player" id="video-player" frameBorder="0"></iframe> : ""}
+        {index < 2 ? <ReactPlayer playing={playing} style={{ borderRadius: "40px", position: "fixed", maxWidth: "330px", minWidth: "330px" }} height="550px" url={`https://www.youtube.com/embed/${teacher.video}?controls=0&showinfo=0`} id="video-player" /> : ""}
       </TinderCard>
     </>
   );
