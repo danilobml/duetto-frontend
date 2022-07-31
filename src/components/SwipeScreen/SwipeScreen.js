@@ -10,7 +10,12 @@ import CardFooter from "../CardFooter.js/CardFooter";
 
 function SwipeScreen({ dispatch }) {
   const data = useContext(UserContext);
-  const teachersData = data[0].teachersData;
+  const matches = data[0].loggedUser.matches;
+  const rejections = data[0].loggedUser.rejections;
+  console.log(matches);
+  console.log(rejections);
+  const teachersData = data[0].teachersData.filter((x) => !matches.includes(x._id) && !rejections.includes(x._id));
+  console.log(teachersData);
   const [reveal, setReveal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(teachersData.length - 1);
   const [lastDirection, setLastDirection] = useState();
@@ -73,14 +78,17 @@ function SwipeScreen({ dispatch }) {
       <Header className="head" />
       <div className="cardContainer">
         {teachersData &&
-          teachersData.map((teacher, index) => (
-            <>
-              <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
-              <div className="footer">
-                <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} playing={playing} setPlaying={setPlaying} />
-              </div>
-            </>
-          ))}
+          // matches.length &&
+          teachersData
+            // .filter((teacher) => !matches.includes(teacher._id))
+            .map((teacher, index) => (
+              <>
+                <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
+                <div className="footer">
+                  <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} playing={playing} setPlaying={setPlaying} />
+                </div>
+              </>
+            ))}
       </div>
     </div>
   );

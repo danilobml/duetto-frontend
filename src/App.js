@@ -2,15 +2,17 @@ import "./App.css";
 import { useEffect, useReducer } from "react";
 import { Routes, Route } from "react-router-dom";
 import UserContext from "./components/UserContext";
-import SwipeScreen from "./components/SwipeScreen/SwipeScreen";
 
 import serverUrl from "./serverUrl";
 import MatchScreen from "./components/MatchScreen.js/MatchScreen";
 import UserProfile from "./components/UserProfile/UserProfile";
+import SwipeScreen from "./components/SwipeScreen/SwipeScreen";
+import LogInScreen from "./components/LogInScreen/LogInScreen";
 
 const axios = require("axios");
 
 const initialState = {
+  logged: true,
   loggedUser: {},
   teachersData: [],
   matches: [],
@@ -54,16 +56,36 @@ function App() {
     axios
       .get(`${serverUrl}/user`)
       .then((response) => {
-        dispatch({ type: "SET_USER_DATA", payload: response.data });
+        dispatch({ type: "SET_USER_DATA", payload: response.data[0] });
       })
       .catch((error) => console.log(error));
   }, []);
+
+  useEffect(() => {
+    axios
+      .patch(`${serverUrl}/user/${state.loggedUser._id}`, {
+        key: "matches",
+        value: [...state.matches],
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  }, [state.matches]);
+
+  useEffect(() => {
+    axios
+      .patch(`${serverUrl}/user/${state.loggedUser._id}`, {
+        key: "rejections",
+        value: [...state.rejections],
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  }, [state.rejections]);
 
   return (
     <div className="App">
       <UserContext.Provider value={[state, dispatch]}>
         <Routes>
-          <Route path="/" element={<SwipeScreen dispatch={dispatch} />} />
+          {!state.logged ? <Route path="/" element={<LogInScreen />} /> : <Route path="/" element={<SwipeScreen dispatch={dispatch} />} />}
           <Route path="/match" element={<MatchScreen />} />
           <Route path="/user" element={<UserProfile />} />
         </Routes>
