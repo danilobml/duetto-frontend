@@ -2,7 +2,7 @@ import "./SwipeCard.css";
 import TinderCard from "react-tinder-card";
 import ReactPlayer from "react-player";
 
-function SwipeCard({ childRefs, onSwipe, teacher, reveal, index, playing, setPlaying }) {
+function SwipeCard({ childRefs, onSwipe, teacher, reveal, index, playing, setPlaying, currentIndex }) {
   return (
     <>
       <div
@@ -39,7 +39,7 @@ function SwipeCard({ childRefs, onSwipe, teacher, reveal, index, playing, setPla
             ""
           )}
         </div>
-        {index < 2 ? <ReactPlayer playing={playing} style={{ borderRadius: "40px", position: "fixed", maxWidth: "330px", minWidth: "330px" }} height="550px" url={`https://www.youtube.com/embed/${teacher.video}?controls=0&showinfo=0`} id="video-player" /> : ""}
+        <ReactPlayer playing={index === currentIndex ? playing : false} index={index} style={{ borderRadius: "40px", position: "fixed", maxWidth: "330px", minWidth: "330px" }} height="550px" url={`https://www.youtube.com/embed/${teacher.video}?controls=0&showinfo=0`} id="video-player" />
       </TinderCard>
     </>
   );

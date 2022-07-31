@@ -75,7 +75,7 @@ function SwipeScreen({ dispatch }) {
         {teachersData &&
           teachersData.map((teacher, index) => (
             <>
-              <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} />
+              <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
               <div className="footer">
                 <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} playing={playing} setPlaying={setPlaying} />
               </div>
