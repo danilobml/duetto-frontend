@@ -10,11 +10,9 @@ import CardFooter from "../CardFooter.js/CardFooter";
 
 function SwipeScreen({ dispatch }) {
   const data = useContext(UserContext);
-  console.log(data, data[0]);
   const teachersData = data[0].teachersData;
   const [reveal, setReveal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(teachersData.length - 1);
-  console.log({ reveal, currentIndex, teachersData });
   const [lastDirection, setLastDirection] = useState();
   const currentIndexRef = useRef(currentIndex);
   const [playing, setPlaying] = useState(false);
@@ -22,8 +20,6 @@ function SwipeScreen({ dispatch }) {
   useEffect(() => {
     setCurrentIndex(teachersData.length - 1);
   }, [teachersData]);
-
-  console.log(reveal);
 
   const navigate = useNavigate();
 
@@ -40,20 +36,20 @@ function SwipeScreen({ dispatch }) {
     currentIndexRef.current = val;
   };
 
-  const swiped = (direction, teacherName = "none", index) => {
+  const swiped = (direction, teacher, index) => {
     if (direction === "right") {
       setLastDirection(direction);
       updateCurrentIndex(index - 1);
-      const teacher = teacherName;
-      dispatch({ type: "SET_TEACHER", payload: teacher });
+      const matchedTeacher = teacher;
+      dispatch({ type: "SET_MATCHED_TEACHER", payload: matchedTeacher });
       navigate("/match");
     }
     if (direction === "left") {
       setLastDirection(direction);
       updateCurrentIndex(index - 1);
-      dispatch({ type: "SET_TEACHER", payload: "" });
+      const rejectedTeacher = teacher;
+      dispatch({ type: "SET_REJECTED_TEACHER", payload: rejectedTeacher });
     }
-    console.log(direction, teacherName);
   };
 
   const canSwipe = currentIndex >= 0;
@@ -68,6 +64,10 @@ function SwipeScreen({ dispatch }) {
     return "Loading...";
   }
 
+  if (teachersData.length === 0) {
+    return "No more users available";
+  }
+
   return (
     <div className="main-container">
       <Header className="head" />
@@ -75,7 +75,7 @@ function SwipeScreen({ dispatch }) {
         {teachersData &&
           teachersData.map((teacher, index) => (
             <>
-              <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher.name, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} />
+              <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} />
               <div className="footer">
                 <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} playing={playing} setPlaying={setPlaying} />
               </div>

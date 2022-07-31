@@ -1,7 +1,6 @@
 import "./SwipeCard.css";
 import TinderCard from "react-tinder-card";
 import ReactPlayer from "react-player";
-import { useState } from "react";
 
 function SwipeCard({ childRefs, onSwipe, teacher, reveal, index, playing, setPlaying }) {
   return (

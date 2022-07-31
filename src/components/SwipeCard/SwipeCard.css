@@ -23,10 +23,6 @@
     max-width: 330px;
   }
 
-.info-hidden {
-    text-align: start;
-}
-
 #movie_player > div.ytp-cued-thumbnail-overlay > button {
     display: none;
 }  
@@ -44,3 +40,19 @@
     border-radius: "40px";
     overflow: hidden;
 }
+
+.info-hidden {
+    text-align: start;
+    transform: translateY(100%);
+    animation: reveal 0.3s cubic-bezier(1, 0, 0.3, 0.9) forwards;
+}
+
+
+@keyframes reveal {
+    from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+  }

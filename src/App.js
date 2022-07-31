@@ -14,16 +14,18 @@ const initialState = {
   loggedUser: {},
   teachersData: [],
   matches: [],
-  selectedTeacher: "",
+  rejections: [],
+  selectedTeacher: {},
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    //     "APPROVE_TEACHER"
-    // REJECTED_TEACHER
-    case "SET_TEACHER":
-      const teacher = action.payload;
-      return { ...state, selectedTeacher: teacher };
+    case "SET_MATCHED_TEACHER":
+      const matchedTeacher = action.payload;
+      return { ...state, selectedTeacher: matchedTeacher, teachersData: state.teachersData.filter((x) => x !== matchedTeacher), matches: [...state.matches, matchedTeacher._id] };
+    case "SET_REJECTED_TEACHER":
+      const rejectedTeacher = action.payload;
+      return { ...state, teachersData: state.teachersData.filter((x) => x !== rejectedTeacher), rejections: [...state.rejections, rejectedTeacher._id] };
     case "SET_TEACHERS_DATA":
       const teachers = action.payload;
       return { ...state, teachersData: teachers };
@@ -37,6 +39,9 @@ const reducer = (state, action) => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log(state);
+  console.log(state.rejections);
+  console.log(state.matches);
 
   useEffect(() => {
     axios
@@ -49,7 +54,6 @@ function App() {
     axios
       .get(`${serverUrl}/user`)
       .then((response) => {
-        console.log(response);
         dispatch({ type: "SET_USER_DATA", payload: response.data });
       })
       .catch((error) => console.log(error));

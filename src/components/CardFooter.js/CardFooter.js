@@ -16,7 +16,7 @@ function CardFooter({ setReveal, reveal, swipe, playing, setPlaying }) {
         </svg>
       </button>
       <div className="center">
-        {!reveal ? <img className="arrow-icon" onClick={() => setReveal(!reveal)} src={upIcon} style={{ width: "30px", alignSelf: "center" }} /> : <img className="arrow-icon" onClick={() => setReveal(!reveal)} src={downIcon} style={{ width: "30px", alignSelf: "center" }} />}
+        {!reveal ? <img className="arrow-icon" alt="arrow up icon" onClick={() => setReveal(!reveal)} src={upIcon} style={{ width: "30px", alignSelf: "center" }} /> : <img className="arrow-icon" alt="arrow down icon" onClick={() => setReveal(!reveal)} src={downIcon} style={{ width: "30px", alignSelf: "center" }} />}
         <button onClick={() => setPlaying(!playing)} className="p-0 w-16 h-13 bg-gray-600 rounded-full hover:bg-gray-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
           {playing ? (
             <svg xmlns="http://www.w3.org/2000/svg" width="60" height="25" viewBox="-2 0 15 15" fill="none">
