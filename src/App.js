@@ -13,26 +13,27 @@ const axios = require("axios");
 
 const initialState = {
   logged: true,
+  loggedEmail: "dan@gmail.com",
   loggedUser: {},
   teachersData: [],
-  matches: [],
-  rejections: [],
-  selectedTeacher: {},
+  matchedUser: {},
+  rejectedUser: {},
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "SET_MATCHED_TEACHER":
-      const matchedTeacher = action.payload;
-      return { ...state, selectedTeacher: matchedTeacher, teachersData: state.teachersData.filter((x) => x !== matchedTeacher), matches: [...state.matches, matchedTeacher._id] };
+      const matchedUser = action.payload;
+      return { ...state, matchedUser: matchedUser, teachersData: state.teachersData.filter((x) => x !== matchedUser) };
     case "SET_REJECTED_TEACHER":
       const rejectedTeacher = action.payload;
-      return { ...state, teachersData: state.teachersData.filter((x) => x !== rejectedTeacher), rejections: [...state.rejections, rejectedTeacher._id] };
-    case "SET_TEACHERS_DATA":
+      return { ...state, rejectedTeacher: rejectedTeacher, teachersData: state.teachersData.filter((x) => x !== rejectedTeacher) };
+    case "SET_USERS_DATA":
       const teachers = action.payload;
       return { ...state, teachersData: teachers };
-    case "SET_USER_DATA":
+    case "SET_LOGGED_USER_DATA":
       const user = action.payload;
+      console.log("OIJWDIOQWJDOIWQJD", user);
       return { ...state, loggedUser: user };
     default:
       throw new Error();
@@ -41,45 +42,47 @@ const reducer = (state, action) => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  console.log(state);
-  console.log(state.rejections);
-  console.log(state.matches);
 
   useEffect(() => {
     axios
-      .get(`${serverUrl}/teachers`)
+      .get(`${serverUrl}/users/logged_user/${state.loggedEmail}`)
       .then((response) => {
-        dispatch({ type: "SET_TEACHERS_DATA", payload: response.data });
+        console.log(12323123131, response.data);
+        dispatch({ type: "SET_LOGGED_USER_DATA", payload: response.data });
       })
       .catch((error) => console.log(error));
 
     axios
-      .get(`${serverUrl}/user`)
+      .get(`${serverUrl}/users/${state.loggedEmail}`)
       .then((response) => {
-        dispatch({ type: "SET_USER_DATA", payload: response.data[0] });
+        dispatch({ type: "SET_USERS_DATA", payload: response.data });
       })
       .catch((error) => console.log(error));
   }, []);
 
   useEffect(() => {
-    axios
-      .patch(`${serverUrl}/user/${state.loggedUser._id}`, {
-        key: "matches",
-        value: [...state.matches],
-      })
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
-  }, [state.matches]);
+    if (state.matchedUser && state.loggedUser) {
+      axios
+        .post(`${serverUrl}/matches/create`, {
+          uid1: state.loggedUser._id,
+          uid2: state.matchedUser._id,
+        })
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
+    }
+  }, [state.matchedUser]);
 
   useEffect(() => {
-    axios
-      .patch(`${serverUrl}/user/${state.loggedUser._id}`, {
-        key: "rejections",
-        value: [...state.rejections],
-      })
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
-  }, [state.rejections]);
+    if (state.rejectedTeacher && state.loggedUser) {
+      axios
+        .post(`${serverUrl}/rejections/create`, {
+          uid: state.loggedUser._id,
+          tid: state.rejecteduser._id,
+        })
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
+    }
+  }, [state.rejectedTeacher]);
 
   return (
     <div className="App">

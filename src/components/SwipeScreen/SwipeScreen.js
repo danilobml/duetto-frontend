@@ -10,11 +10,7 @@ import CardFooter from "../CardFooter.js/CardFooter";
 
 function SwipeScreen({ dispatch }) {
   const data = useContext(UserContext);
-  const matches = data[0].loggedUser.matches;
-  const rejections = data[0].loggedUser.rejections;
-  console.log(matches);
-  console.log(rejections);
-  const teachersData = data[0].teachersData.filter((x) => !matches.includes(x._id) && !rejections.includes(x._id));
+  let teachersData = data[0].teachersData;
   console.log(teachersData);
   const [reveal, setReveal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(teachersData.length - 1);
@@ -45,8 +41,8 @@ function SwipeScreen({ dispatch }) {
     if (direction === "right") {
       setLastDirection(direction);
       updateCurrentIndex(index - 1);
-      const matchedTeacher = teacher;
-      dispatch({ type: "SET_MATCHED_TEACHER", payload: matchedTeacher });
+      const matchedUser = teacher;
+      dispatch({ type: "SET_MATCHED_TEACHER", payload: matchedUser });
       navigate("/match");
     }
     if (direction === "left") {
@@ -80,10 +76,10 @@ function SwipeScreen({ dispatch }) {
         {teachersData &&
           // matches.length &&
           teachersData
-            // .filter((teacher) => !matches.includes(teacher._id))
+            // .filter((teacher) => !matches.includes(user._id))
             .map((teacher, index) => (
               <>
-                <SwipeCard key={teacher._id} onSwipe={(dir) => swiped(dir, teacher, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
+                <SwipeCard key={user._id} onSwipe={(dir) => swiped(dir, teacher, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
                 <div className="footer">
                   <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} playing={playing} setPlaying={setPlaying} />
                 </div>

@@ -8,7 +8,7 @@ import NavMenu from "../NavMenu/NavMenu";
 
 function Header() {
   const data = useContext(UserContext);
-  const userPicture = data[0].loggedUser.profile_picture;
+  const userPicture = data[0].loggedUser?.profile_picture;
 
   return (
     <div className="header-div">
