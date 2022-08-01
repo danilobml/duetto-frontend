@@ -5,12 +5,12 @@ import UserContext from "../UserContext";
 
 function MatchScreen() {
   const data = useContext(UserContext);
-  const teacher = data[0].matchedUser;
+  const user = data[0].matchedUser;
   const userName = data[0].loggedUser.name;
 
   const navigate = useNavigate();
 
-  if (!teacher) {
+  if (!user) {
     return "Loading...";
   }
 

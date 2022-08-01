@@ -10,26 +10,26 @@ import CardFooter from "../CardFooter.js/CardFooter";
 
 function SwipeScreen({ dispatch }) {
   const data = useContext(UserContext);
-  let teachersData = data[0].teachersData;
-  console.log(teachersData);
+  let usersData = data[0].usersData;
+  console.log(usersData);
   const [reveal, setReveal] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(teachersData.length - 1);
+  const [currentIndex, setCurrentIndex] = useState(usersData.length - 1);
   const [lastDirection, setLastDirection] = useState();
   const currentIndexRef = useRef(currentIndex);
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    setCurrentIndex(teachersData.length - 1);
-  }, [teachersData]);
+    setCurrentIndex(usersData.length - 1);
+  }, [usersData]);
 
   const navigate = useNavigate();
 
   const childRefs = useMemo(
     () =>
-      Array(teachersData.length)
+      Array(usersData.length)
         .fill(0)
         .map((i) => React.createRef()),
-    [teachersData.length]
+    [usersData.length]
   );
 
   const updateCurrentIndex = (val) => {
@@ -37,35 +37,35 @@ function SwipeScreen({ dispatch }) {
     currentIndexRef.current = val;
   };
 
-  const swiped = (direction, teacher, index) => {
+  const swiped = (direction, user, index) => {
     if (direction === "right") {
       setLastDirection(direction);
       updateCurrentIndex(index - 1);
-      const matchedUser = teacher;
-      dispatch({ type: "SET_MATCHED_TEACHER", payload: matchedUser });
+      const matchedUser = user;
+      dispatch({ type: "SET_MATCHED_USER", payload: matchedUser });
       navigate("/match");
     }
     if (direction === "left") {
       setLastDirection(direction);
       updateCurrentIndex(index - 1);
-      const rejectedTeacher = teacher;
-      dispatch({ type: "SET_REJECTED_TEACHER", payload: rejectedTeacher });
+      const rejectedUser = user;
+      dispatch({ type: "SET_REJECTED_USER", payload: rejectedUser });
     }
   };
 
   const canSwipe = currentIndex >= 0;
 
   const swipe = async (dir) => {
-    if (canSwipe && currentIndex < teachersData.length) {
+    if (canSwipe && currentIndex < usersData.length) {
       await childRefs[currentIndex].current.swipe(dir);
     }
   };
 
-  if (!teachersData) {
+  if (!usersData) {
     return "Loading...";
   }
 
-  if (teachersData.length === 0) {
+  if (usersData.length === 0) {
     return "No more users available";
   }
 
@@ -73,13 +73,13 @@ function SwipeScreen({ dispatch }) {
     <div className="main-container">
       <Header className="head" />
       <div className="cardContainer">
-        {teachersData &&
+        {usersData &&
           // matches.length &&
-          teachersData
-            // .filter((teacher) => !matches.includes(user._id))
-            .map((teacher, index) => (
+          usersData
+            // .filter((user) => !matches.includes(user._id))
+            .map((user, index) => (
               <>
-                <SwipeCard key={user._id} onSwipe={(dir) => swiped(dir, teacher, index)} teacher={teacher} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
+                <SwipeCard key={user._id} onSwipe={(dir) => swiped(dir, user, index)} user={user} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
                 <div className="footer">
                   <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} playing={playing} setPlaying={setPlaying} />
                 </div>

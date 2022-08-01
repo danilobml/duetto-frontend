@@ -15,25 +15,24 @@ const initialState = {
   logged: true,
   loggedEmail: "dan@gmail.com",
   loggedUser: {},
-  teachersData: [],
+  usersData: [],
   matchedUser: {},
   rejectedUser: {},
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "SET_MATCHED_TEACHER":
+    case "SET_MATCHED_USER":
       const matchedUser = action.payload;
-      return { ...state, matchedUser: matchedUser, teachersData: state.teachersData.filter((x) => x !== matchedUser) };
-    case "SET_REJECTED_TEACHER":
-      const rejectedTeacher = action.payload;
-      return { ...state, rejectedTeacher: rejectedTeacher, teachersData: state.teachersData.filter((x) => x !== rejectedTeacher) };
+      return { ...state, matchedUser: matchedUser, usersData: state.usersData.filter((x) => x !== matchedUser) };
+    case "SET_REJECTED_USER":
+      const rejectedUser = action.payload;
+      return { ...state, rejectedUser: rejectedUser, usersData: state.usersData.filter((x) => x !== rejectedUser) };
     case "SET_USERS_DATA":
-      const teachers = action.payload;
-      return { ...state, teachersData: teachers };
+      const users = action.payload;
+      return { ...state, usersData: users };
     case "SET_LOGGED_USER_DATA":
       const user = action.payload;
-      console.log("OIJWDIOQWJDOIWQJD", user);
       return { ...state, loggedUser: user };
     default:
       throw new Error();
@@ -47,7 +46,6 @@ function App() {
     axios
       .get(`${serverUrl}/users/logged_user/${state.loggedEmail}`)
       .then((response) => {
-        console.log(12323123131, response.data);
         dispatch({ type: "SET_LOGGED_USER_DATA", payload: response.data });
       })
       .catch((error) => console.log(error));
@@ -73,7 +71,7 @@ function App() {
   }, [state.matchedUser]);
 
   useEffect(() => {
-    if (state.rejectedTeacher && state.loggedUser) {
+    if (state.rejectedUser && state.loggedUser) {
       axios
         .post(`${serverUrl}/rejections/create`, {
           uid: state.loggedUser._id,
@@ -82,7 +80,7 @@ function App() {
         .then((response) => console.log(response))
         .catch((error) => console.log(error));
     }
-  }, [state.rejectedTeacher]);
+  }, [state.rejectedUser]);
 
   return (
     <div className="App">

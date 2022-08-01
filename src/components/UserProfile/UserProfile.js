@@ -24,7 +24,7 @@ function UserProfile() {
       <div className="user-data">
         <img src={user.profile_picture} alt="user" className="user-pic" />
         <h4>Name: {user.name}</h4>
-        <h4>Registered as: {user.student ? "Student" : "Teacher"}</h4>
+        <h4>Registered as: {user.student ? "Student" : "User"}</h4>
         <h4>Age: {user.age}</h4>
         <h4>Phone: {user.phone}</h4>
         <h4>Location: {user.location}</h4>
