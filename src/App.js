@@ -4,7 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import UserContext from "./components/UserContext";
 
 import serverUrl from "./serverUrl";
-import MatchScreen from "./components/MatchScreen.js/MatchScreen";
+import MatchScreen from "./components/MatchScreen/MatchScreen";
+import MatchesScreen from "./components/MatchesScreen/MatchesScreen";
 import UserProfile from "./components/UserProfile/UserProfile";
 import SwipeScreen from "./components/SwipeScreen/SwipeScreen";
 import LogInScreen from "./components/LogInScreen/LogInScreen";
@@ -75,7 +76,7 @@ function App() {
       axios
         .post(`${serverUrl}/rejections/create`, {
           uid: state.loggedUser._id,
-          tid: state.rejecteduser._id,
+          tid: state.rejectedUser._id,
         })
         .then((response) => console.log(response))
         .catch((error) => console.log(error));
@@ -88,6 +89,7 @@ function App() {
         <Routes>
           {!state.logged ? <Route path="/" element={<LogInScreen />} /> : <Route path="/" element={<SwipeScreen dispatch={dispatch} />} />}
           <Route path="/match" element={<MatchScreen />} />
+          <Route path="/matches" element={<MatchesScreen />} />
           <Route path="/user" element={<UserProfile />} />
         </Routes>
       </UserContext.Provider>

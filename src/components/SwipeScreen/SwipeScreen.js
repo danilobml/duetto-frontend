@@ -86,6 +86,9 @@ function SwipeScreen({ dispatch }) {
               </>
             ))}
       </div>
+      <footer className="fixed bottom-0 ">
+        <button onClick={() => navigate("/matches")} className="border-4 border-black rounded-full m-4 p-4 ">oqiwdjoqwidjoiwj</button>
+      </footer>
     </div>
   );
 }
