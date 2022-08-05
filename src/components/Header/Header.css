@@ -1,9 +1,12 @@
 .header-div {
+    position: fixed;
+    top: 1%;
     display: flex;
     justify-content: space-between;
-    width: 320px;
+    width: 338px;
     padding: 0 15px;
     padding-top: 0px;
+    z-index: 1000000;
 }
 
 .icon {

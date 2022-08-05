@@ -5,7 +5,7 @@ function NavMenu() {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   return (
-    <div className="flex items-center py-8">
+    <div className="nav-menu flex items-center py-8">
       <nav>
         <section className="MOBILE-MENU flex lg:hidden">
           <div className="HAMBURGER-ICON space-y-2" onClick={() => setIsNavOpen((prev) => !prev)}>
@@ -24,10 +24,16 @@ function NavMenu() {
             </div>
             <ul className="MENU-LINK-MOBILE-OPEN flex flex-col items-center justify-between min-h-[250px]">
               <li className="border-b border-gray-400 my-8 uppercase">
+                <a href="/">Match!</a>
+              </li>
+              <li className="border-b border-gray-400 my-8 uppercase">
                 <a href="/update">Update Profile</a>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
                 <a href="/settings">Change Settings</a>
+              </li>
+              <li className="border-b border-gray-400 my-8 uppercase">
+                <a href="/matches">My Matches</a>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
                 <a href="/bookings">Bookings</a>

@@ -15,16 +15,10 @@ function UserProfile() {
 
   return (
     <>
-      <div className="CROSS-ICON absolute top-0 right-0 px-8 py-8" onClick={() => navigate(-1)}>
-        <svg className="h-8 w-8 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </div>
-      <div className="user-data">
+      <div className="user-data mt-4">
         <img src={user.profile_picture} alt="user" className="user-pic" />
         <h4>Name: {user.name}</h4>
-        <h4>Registered as: {user.student ? "Student" : "User"}</h4>
+        <h4>Registered as: {user.role === "student" ? "Student" : "Teacher"}</h4>
         <h4>Age: {user.age}</h4>
         <h4>Phone: {user.phone}</h4>
         <h4>Location: {user.location}</h4>
@@ -43,7 +37,7 @@ function UserProfile() {
         <h4>
           Preferred classes: {user.online && "Online"} {user.online && user.in_person && "/"} {user.in_person && "In person"}
         </h4>
-        {user.student ? (
+        {user.role === "student" ? (
           <h4>
             Desired price range: from {user.min_price}Euros /hour to {user.max_price}Euros /hour
           </h4>

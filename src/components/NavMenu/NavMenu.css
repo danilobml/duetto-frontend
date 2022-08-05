@@ -1,6 +1,11 @@
+.nav-menu {
+    z-index: 10000000000;
+}
+
 
 .hideMenuNav {
       display: none;
+      z-index: 100000000;
     }
 
 .showMenuNav {
@@ -15,7 +20,8 @@
       flex-direction: column;
       justify-content: space-evenly;
       align-items: center;
-      animation: growDown 300ms ease-in-out forwards
+      animation: growDown 300ms ease-in-out forwards;
+      z-index: 100000000;
     }
 
     @keyframes growDown {

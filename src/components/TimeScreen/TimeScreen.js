@@ -1,0 +1,19 @@
+import "./TimeScreen.css";
+import DayTimePicker from "@mooncake-dev/react-day-time-picker";
+
+function TimeScreen() {
+  function timeSlotValidator(slotTime) {
+    const bookedTime = new Date("2022-08-03T-12:45");
+    console.log(bookedTime);
+    const isValid = slotTime.getTime() !== bookedTime.getTime();
+    return isValid;
+  }
+
+  return (
+    <div className="container">
+      <DayTimePicker timeSlotSizeMinutes={15} timeSlotValidator={timeSlotValidator} />;
+    </div>
+  );
+}
+
+export default TimeScreen;

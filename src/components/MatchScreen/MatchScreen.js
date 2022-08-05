@@ -15,11 +15,10 @@ function MatchScreen() {
   }
 
   return (
-    <div className="match-main" onClick={() => navigate(-1)}>
-      <h1 className="match-names">
-        You, {userName}, have matched with: {user.name}!
-      </h1>
-      <h2>Click to go back</h2>
+    <div className="match-main">
+      <h1 className="match-names">You matched with: {user.name}!</h1>
+      <button onClick={() => navigate("/time")}>Check availabilities</button>
+      <h2 onClick={() => navigate(-1)}>Click to go back</h2>
     </div>
   );
 }

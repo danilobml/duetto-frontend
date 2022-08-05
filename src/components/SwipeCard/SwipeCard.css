@@ -1,6 +1,7 @@
 
   .swipe {
     position: fixed;
+    top: 90px;
     opacity: 1;
     background-color: rgb(255, 249, 243);
     border-radius: 40px;

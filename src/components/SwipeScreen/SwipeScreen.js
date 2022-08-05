@@ -11,25 +11,26 @@ import CardFooter from "../CardFooter.js/CardFooter";
 function SwipeScreen({ dispatch }) {
   const data = useContext(UserContext);
   let usersData = data[0].usersData;
-  console.log(usersData);
+  const filteredUsersData = usersData.filter((x) => !data[0].loggedUser.rejections.includes(x._id) && !data[0].loggedUser.selections.includes(x._id));
+  console.log(data[0].loggedUser.rejections);
   const [reveal, setReveal] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(usersData.length - 1);
+  const [currentIndex, setCurrentIndex] = useState(filteredUsersData.length - 1);
   const [lastDirection, setLastDirection] = useState();
   const currentIndexRef = useRef(currentIndex);
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    setCurrentIndex(usersData.length - 1);
-  }, [usersData]);
+    setCurrentIndex(filteredUsersData.length - 1);
+  }, [filteredUsersData]);
 
   const navigate = useNavigate();
 
   const childRefs = useMemo(
     () =>
-      Array(usersData.length)
+      Array(filteredUsersData.length)
         .fill(0)
         .map((i) => React.createRef()),
-    [usersData.length]
+    [filteredUsersData.length]
   );
 
   const updateCurrentIndex = (val) => {
@@ -41,9 +42,13 @@ function SwipeScreen({ dispatch }) {
     if (direction === "right") {
       setLastDirection(direction);
       updateCurrentIndex(index - 1);
-      const matchedUser = user;
-      dispatch({ type: "SET_MATCHED_USER", payload: matchedUser });
-      navigate("/match");
+      if (data[0].loggedUser.selections.includes(user._id) || user.selections.includes(data[0].loggedUser._id)) {
+        dispatch({ type: "SET_ACCEPTED_USER", payload: user });
+        dispatch({ type: "SET_MATCHED_USER", payload: user });
+        navigate("/match");
+      } else {
+        dispatch({ type: "SET_ACCEPTED_USER", payload: user });
+      }
     }
     if (direction === "left") {
       setLastDirection(direction);
@@ -56,26 +61,25 @@ function SwipeScreen({ dispatch }) {
   const canSwipe = currentIndex >= 0;
 
   const swipe = async (dir) => {
-    if (canSwipe && currentIndex < usersData.length) {
+    if (canSwipe && currentIndex < filteredUsersData.length) {
       await childRefs[currentIndex].current.swipe(dir);
     }
   };
 
-  if (!usersData) {
+  if (!filteredUsersData) {
     return "Loading...";
   }
 
-  if (usersData.length === 0) {
+  if (filteredUsersData.length === 0) {
     return "No more users available";
   }
 
   return (
     <div className="main-container">
-      <Header className="head" />
       <div className="cardContainer">
-        {usersData &&
+        {filteredUsersData &&
           // matches.length &&
-          usersData
+          filteredUsersData
             // .filter((user) => !matches.includes(user._id))
             .map((user, index) => (
               <>
@@ -86,9 +90,6 @@ function SwipeScreen({ dispatch }) {
               </>
             ))}
       </div>
-      <footer className="fixed bottom-0 ">
-        <button onClick={() => navigate("/matches")} className="border-4 border-black rounded-full m-4 p-4 ">oqiwdjoqwidjoiwj</button>
-      </footer>
     </div>
   );
 }
