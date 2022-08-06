@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../UserContext";
 
 import SwipeCard from "../SwipeCard/SwipeCard";
-import Header from "../Header/Header";
 import CardFooter from "../CardFooter.js/CardFooter";
 
 function SwipeScreen({ dispatch }) {
@@ -45,7 +44,7 @@ function SwipeScreen({ dispatch }) {
       if (data[0].loggedUser.selections.includes(user._id) || user.selections.includes(data[0].loggedUser._id)) {
         dispatch({ type: "SET_ACCEPTED_USER", payload: user });
         dispatch({ type: "SET_MATCHED_USER", payload: user });
-        navigate("/match");
+        navigate("/payment");
       } else {
         dispatch({ type: "SET_ACCEPTED_USER", payload: user });
       }

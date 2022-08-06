@@ -11,6 +11,8 @@ import SwipeScreen from "./components/SwipeScreen/SwipeScreen";
 import LogInScreen from "./components/LogInScreen/LogInScreen";
 import TimeScreen from "./components/TimeScreen/TimeScreen";
 import SettingsScreen from "./components/SettingsScreen/SettingsScreen";
+import RegisterScreen from "./components/RegisterScreen/RegisterScreen";
+import StripeContainer from "./components/Payments/StripeContainer";
 import Header from "./components/Header/Header";
 
 const axios = require("axios");
@@ -127,14 +129,16 @@ function App() {
   return (
     <div className="App">
       <UserContext.Provider value={[state, dispatch]}>
-        <Header />
+        {state.logged && <Header />}
         <Routes>
           {!state.logged ? <Route path="/" element={<LogInScreen />} /> : <Route path="/" element={<SwipeScreen dispatch={dispatch} />} />}
           <Route path="/match" element={<MatchScreen />} />
           <Route path="/matches" element={<MatchesScreen dispatch={dispatch} />} />
           <Route path="/user" element={<UserProfile />} />
           <Route path="/time" element={<TimeScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
+          <Route path="/payment" element={<StripeContainer />} />
         </Routes>
       </UserContext.Provider>
     </div>

@@ -1,5 +1,6 @@
 import "./NavMenu.css";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function NavMenu() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -24,19 +25,19 @@ function NavMenu() {
             </div>
             <ul className="MENU-LINK-MOBILE-OPEN flex flex-col items-center justify-between min-h-[250px]">
               <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/">Match!</a>
+                <Link to="/">Match!</Link>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/update">Update Profile</a>
+                <Link to="/update">Update Profile</Link>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/settings">Change Settings</a>
+                <Link to="/settings">Change Settings</Link>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/matches">My Matches</a>
+                <Link to="/matches">My Matches</Link>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/bookings">Bookings</a>
+                <Link to="/bookings">Bookings</Link>
               </li>
             </ul>
           </div>
