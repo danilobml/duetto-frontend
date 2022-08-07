@@ -1,6 +1,6 @@
 import "./App.css";
-import { useEffect, useReducer } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState, useEffect, useReducer } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import UserContext from "./components/UserContext";
 
 import serverUrl from "./serverUrl";
@@ -18,8 +18,9 @@ import Header from "./components/Header/Header";
 const axios = require("axios");
 
 const initialState = {
-  logged: true,
-  loggedEmail: "dan@gmail.com",
+  logged: false,
+  loggedEmail: null,
+  token: "",
   loggedUser: {},
   usersData: [],
   loggedUserMatches: [],
@@ -30,12 +31,18 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "LOGIN":
+      const loggedEmail = action.payload.email;
+      const token = action.payload.token;
+      return { ...state, logged: true, loggedEmail: loggedEmail, token };
+    case "LOGOUT":
+      return { ...state, logged: false, loggedEmail: "", token: "" };
     case "SET_ACCEPTED_USER":
       const acceptedUser = action.payload;
       return { ...state, acceptedUser: acceptedUser, usersData: state.usersData.filter((x) => x !== acceptedUser) };
     case "SET_MATCHED_USER":
       const matchedUser = action.payload;
-      return { ...state, matchedUser: matchedUser, usersData: state.usersData.filter((x) => x !== matchedUser) };
+      return { ...state, matchedUser: matchedUser };
     case "SET_REJECTED_USER":
       const rejectedUser = action.payload;
       return { ...state, rejectedUser: rejectedUser, usersData: state.usersData.filter((x) => x !== rejectedUser) };
@@ -56,25 +63,31 @@ const reducer = (state, action) => {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  if (state.loggedUser) {
-    console.log(state.acceptedUser);
-  }
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+      dispatch({ type: "LOGIN", payload: user });
+    }
+  }, []);
 
   useEffect(() => {
-    axios
-      .get(`${serverUrl}/users/logged_user/${state.loggedEmail}`)
-      .then((response) => {
-        dispatch({ type: "SET_LOGGED_USER_DATA", payload: response.data });
-      })
-      .catch((error) => console.log(error));
+    if (state.loggedEmail) {
+      axios
+        .get(`${serverUrl}/users/logged_user/${state.loggedEmail}`)
+        .then((response) => {
+          dispatch({ type: "SET_LOGGED_USER_DATA", payload: response.data });
+        })
+        .catch((error) => console.log(error));
 
-    axios
-      .get(`${serverUrl}/users/${state.loggedEmail}`)
-      .then((response) => {
-        dispatch({ type: "SET_USERS_DATA", payload: response.data });
-      })
-      .catch((error) => console.log(error));
-  }, []);
+      axios
+        .get(`${serverUrl}/users/${state.loggedEmail}`)
+        .then((response) => {
+          dispatch({ type: "SET_USERS_DATA", payload: response.data });
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [state.loggedEmail]);
 
   useEffect(() => {
     if (state.loggedUser._id) {
@@ -131,10 +144,10 @@ function App() {
       <UserContext.Provider value={[state, dispatch]}>
         {state.logged && <Header />}
         <Routes>
-          {!state.logged ? <Route path="/" element={<LogInScreen />} /> : <Route path="/" element={<SwipeScreen dispatch={dispatch} />} />}
+          {!state.logged ? <Route path="/" element={<LogInScreen dispatch={dispatch} />} /> : <Route path="/" element={<SwipeScreen dispatch={dispatch} />} />}
           <Route path="/match" element={<MatchScreen />} />
           <Route path="/matches" element={<MatchesScreen dispatch={dispatch} />} />
-          <Route path="/user" element={<UserProfile />} />
+          <Route path="/user" element={<UserProfile dispatch={dispatch} />} />
           <Route path="/time" element={<TimeScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />

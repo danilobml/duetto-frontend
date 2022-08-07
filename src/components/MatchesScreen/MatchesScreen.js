@@ -28,7 +28,7 @@ function MatchesScreen({ dispatch }) {
           {matchedUsers.map((matchedUser, i) => {
             return (
               <li>
-                <MatchCard matchedUser={matchedUser} />
+                <MatchCard matchedUser={matchedUser} dispatch={dispatch} />
               </li>
             );
           })}

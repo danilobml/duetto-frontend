@@ -42,18 +42,6 @@ function NavMenu() {
             </ul>
           </div>
         </section>
-
-        <ul className="DESKTOP-MENU hidden space-x-8 lg:flex">
-          <li>
-            <a href="/update">Update Profile</a>
-          </li>
-          <li>
-            <a href="/settings">Change Settings</a>
-          </li>
-          <li>
-            <a href="/bookings">Bookings</a>
-          </li>
-        </ul>
       </nav>
     </div>
   );

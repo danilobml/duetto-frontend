@@ -1,4 +1,5 @@
-.icon {
-    width: 120px;
-    height: 50px;
+.icon-login {
+    width: 140px;
+    height: 60px;
+    z-index: 10000;
 }

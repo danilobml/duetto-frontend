@@ -10,8 +10,10 @@ function TimeScreen() {
   }
 
   return (
-    <div className="container">
-      <DayTimePicker timeSlotSizeMinutes={15} timeSlotValidator={timeSlotValidator} />;
+    <div className="container h-screen w-screen flex justify-center items-center mt-5 pt-5">
+      <div className="mt-5 justify-self-center self-center">
+        <DayTimePicker timeSlotSizeMinutes={15} timeSlotValidator={timeSlotValidator} />;
+      </div>
     </div>
   );
 }
