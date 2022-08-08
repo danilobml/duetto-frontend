@@ -7,11 +7,15 @@ import UserContext from "../UserContext";
 import SwipeCard from "../SwipeCard/SwipeCard";
 import CardFooter from "../CardFooter.js/CardFooter";
 
+import serverUrl from "../../serverUrl";
+
+const axios = require("axios");
+
 function SwipeScreen({ dispatch }) {
   const data = useContext(UserContext);
-  let usersData = data[0].usersData;
+  const usersData = data[0].usersData;
   const filteredUsersData = usersData.filter((x) => !data[0].loggedUser.rejections.includes(x._id) && !data[0].loggedUser.selections.includes(x._id));
-  console.log(data[0].loggedUser.rejections);
+  const loggedUser = data[0].loggedUser;
   const [reveal, setReveal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(filteredUsersData.length - 1);
   const [lastDirection, setLastDirection] = useState();
@@ -37,24 +41,59 @@ function SwipeScreen({ dispatch }) {
     currentIndexRef.current = val;
   };
 
+  function processNewSelection(user) {
+    const newValue = [...loggedUser.selections, user._id];
+    axios
+      .patch(`${serverUrl}/users/${loggedUser._id}`, {
+        key: "selections",
+        value: newValue,
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  }
+
+  function processNewMatch(user) {
+    axios
+      .post(`${serverUrl}/results`, {
+        uid1: loggedUser._id,
+        uid2: user._id,
+        status: "MATCH",
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  }
+
+  function processNewRejection(user) {
+    const newValue = [...loggedUser.rejections, user._id];
+    axios
+      .patch(`${serverUrl}/users/${loggedUser._id}`, {
+        key: "rejections",
+        value: newValue,
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  }
+
   const swiped = (direction, user, index) => {
     if (direction === "right") {
       setLastDirection(direction);
       updateCurrentIndex(index - 1);
       if (data[0].loggedUser.selections.includes(user._id) || user.selections.includes(data[0].loggedUser._id)) {
+        processNewMatch(user);
+        processNewSelection(user);
         dispatch({ type: "SET_ACCEPTED_USER", payload: user });
-        dispatch({ type: "SET_NEW_MATCH", payload: user });
         dispatch({ type: "SET_MATCHED_USER", payload: user });
-        navigate("/time");
+        navigate("/match");
       } else {
+        processNewSelection(user);
         dispatch({ type: "SET_ACCEPTED_USER", payload: user });
       }
     }
     if (direction === "left") {
       setLastDirection(direction);
       updateCurrentIndex(index - 1);
-      const rejectedUser = user;
-      dispatch({ type: "SET_REJECTED_USER", payload: rejectedUser });
+      processNewRejection(user);
+      dispatch({ type: "SET_REJECTED_USER", payload: user });
     }
   };
 

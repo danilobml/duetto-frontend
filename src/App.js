@@ -1,6 +1,6 @@
 import "./App.css";
-import { useState, useEffect, useReducer } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useReducer } from "react";
+import { Routes, Route } from "react-router-dom";
 import UserContext from "./components/UserContext";
 
 import serverUrl from "./serverUrl";
@@ -13,6 +13,9 @@ import TimeScreen from "./components/TimeScreen/TimeScreen";
 import SettingsScreen from "./components/SettingsScreen/SettingsScreen";
 import RegisterScreen from "./components/RegisterScreen/RegisterScreen";
 import StripeContainer from "./components/Payments/StripeContainer";
+import BookingsScreen from "./components/BookingsScreen/BookingsScreen";
+import BookingsScreenOne from "./components/BookingsScreen/BookingsScreenOne";
+import Booking from "./components/Booking/Booking";
 import Chat from "./components/Chat/Chat";
 import Header from "./components/Header/Header";
 
@@ -28,10 +31,8 @@ const initialState = {
   rejectedUser: {},
   acceptedUser: {},
   matchedUser: {},
-  match: {},
   bookingTime: "",
-  bookedTime: "",
-  bookingData: {},
+  usersBookings: [],
 };
 
 const reducer = (state, action) => {
@@ -48,9 +49,6 @@ const reducer = (state, action) => {
     case "SET_MATCHED_USER":
       const matchedUser = action.payload;
       return { ...state, matchedUser: matchedUser };
-    case "SET_NEW_MATCH":
-      const match = action.payload;
-      return { ...state, match: match };
     case "SET_REJECTED_USER":
       const rejectedUser = action.payload;
       return { ...state, rejectedUser: rejectedUser, usersData: state.usersData.filter((x) => x !== rejectedUser) };
@@ -66,12 +64,9 @@ const reducer = (state, action) => {
     case "SET_BOOKING_TIME":
       const time = action.payload;
       return { ...state, bookingTime: time };
-    case "SET_BOOKED_TIME":
-      const bookedTime = action.payload;
-      return { ...state, bookedTime };
-    case "SET_NEW_BOOKING":
-      const bookingData = action.payload;
-      return { ...state, bookingData };
+    case "SET_USERS_BOOKINGS":
+      const bookings = action.payload;
+      return { ...state, usersBookings: bookings };
     default:
       return state;
   }
@@ -90,93 +85,43 @@ function App() {
 
   useEffect(() => {
     if (state.loggedEmail) {
-      axios
-        .get(`${serverUrl}/users/logged_user/${state.loggedEmail}`)
-        .then((response) => {
-          dispatch({ type: "SET_LOGGED_USER_DATA", payload: response.data });
-        })
-        .catch((error) => console.log(error));
-
-      axios
-        .get(`${serverUrl}/users/${state.loggedEmail}`)
-        .then((response) => {
-          dispatch({ type: "SET_USERS_DATA", payload: response.data });
-        })
-        .catch((error) => console.log(error));
+      getLoggedUser();
+      getOtherUsers();
     }
   }, [state.loggedEmail]);
 
   useEffect(() => {
     if (state.loggedUser._id) {
-      axios
-        .get(`${serverUrl}/results/${state.loggedUser._id}`)
-        .then((response) => {
-          dispatch({ type: "SET_USER_MATCHES", payload: response.data });
-        })
-        .catch((error) => console.log(error));
+      getLoggedUserMatches();
     }
   }, [state.loggedUser._id]);
 
-  useEffect(() => {
-    if (state.acceptedUser._id && state.loggedUser._id) {
-      const newValue = [...state.loggedUser.selections, state.acceptedUser._id];
-      axios
-        .patch(`${serverUrl}/users/${state.loggedUser._id}`, {
-          key: "selections",
-          value: newValue,
-        })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-    }
-  }, [state.acceptedUser]);
+  function getLoggedUser() {
+    axios
+      .get(`${serverUrl}/users/logged_user/${state.loggedEmail}`)
+      .then((response) => {
+        dispatch({ type: "SET_LOGGED_USER_DATA", payload: response.data });
+      })
+      .catch((error) => console.log(error));
+  }
 
-  useEffect(() => {
-    if (state.rejectedUser._id && state.loggedUser._id) {
-      const newValue = [...state.loggedUser.rejections, state.rejectedUser._id];
-      axios
-        .patch(`${serverUrl}/users/${state.loggedUser._id}`, {
-          key: "rejections",
-          value: newValue,
-        })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-    }
-  }, [state.rejectedUser._id]);
+  function getOtherUsers() {
+    axios
+      .get(`${serverUrl}/users/${state.loggedEmail}`)
+      .then((response) => {
+        dispatch({ type: "SET_USERS_DATA", payload: response.data });
+      })
+      .catch((error) => console.log(error));
+  }
 
-  useEffect(() => {
-    if (state.match._id && state.loggedUser._id) {
-      axios
-        .post(`${serverUrl}/results`, {
-          uid1: state.loggedUser._id,
-          uid2: state.match._id,
-          status: "MATCH",
-        })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-    }
-  }, [state.match._id]);
-
-  useEffect(() => {
-    if (state.bookedTime && state.matchedUser._id) {
-      const newValue = [...state.matchedUser.availability, state.bookedTime];
-      axios
-        .patch(`${serverUrl}/users/${state.matchedUser._id}`, {
-          key: "availability",
-          value: newValue,
-        })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-    }
-  }, [state.bookedTime]);
-
-  useEffect(() => {
-    if (state.bookingData.length) {
-      axios
-        .post(`${serverUrl}/booking`, state.bookingData)
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-    }
-  }, [state.bookingData]);
+  function getLoggedUserMatches() {
+    axios
+      .get(`${serverUrl}/results/${state.loggedUser._id}`)
+      .then((response) => {
+        dispatch({ type: "SET_USER_MATCHES", payload: response.data });
+      })
+      .catch((error) => console.log(error));
+  }
 
   return (
     <div className="App">
@@ -191,6 +136,9 @@ function App() {
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/payment" element={<StripeContainer dispatch={dispatch} />} />
+          <Route path="/bookings" element={<BookingsScreen dispatch={dispatch} />} />
+          <Route path="/bookings/:id" element={<BookingsScreenOne dispatch={dispatch} />} />
+          <Route path="/booking/:id" element={<Booking />} />
           <Route path="/chat" element={<Chat />} />
         </Routes>
       </UserContext.Provider>

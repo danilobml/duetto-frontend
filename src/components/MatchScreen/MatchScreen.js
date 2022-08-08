@@ -6,7 +6,6 @@ import UserContext from "../UserContext";
 function MatchScreen() {
   const data = useContext(UserContext);
   const user = data[0].matchedUser;
-  const userName = data[0].loggedUser.name;
 
   const navigate = useNavigate();
 
@@ -16,7 +15,7 @@ function MatchScreen() {
 
   return (
     <div className="match-main">
-      <h1 className="match-names">You matched with: {user.name}!</h1>
+      <h1 className="match-names text-3xl">You matched with: {user.name}!</h1>
       <button
         onClick={() => {
           navigate("/time");

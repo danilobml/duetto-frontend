@@ -32,7 +32,7 @@ function MatchCard({ matchedUser, dispatch }) {
           <span
             onClick={() => {
               dispatch({ type: "SET_MATCHED_USER", payload: matchedUser });
-              navigate("/bookings");
+              navigate(`/bookings/${matchedUser._id}`);
             }}
             className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
           >

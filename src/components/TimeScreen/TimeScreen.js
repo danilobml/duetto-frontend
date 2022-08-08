@@ -28,9 +28,9 @@ function TimeScreen({ dispatch }) {
   }
 
   return (
-    <div className="container h-screen w-screen flex flex-col justify-center items-center mt-5 pt-5">
-      <div className="mt-5 justify-self-center self-center">
-        <DayTimePicker timeSlotSizeMinutes={30} timeSlotValidator={timeSlotValidator} onConfirm={handleScheduled} doneText="Booking successful!" isLoading={isScheduling} isDone={isScheduled} err={scheduleErr} />;
+    <div className="container h-70 w-screen flex flex-col justify-center items-center mt-5 pt-5">
+      <div className="mt-5">
+        <DayTimePicker className="mt-5 justify-self-center self-center" timeSlotSizeMinutes={30} timeSlotValidator={timeSlotValidator} onConfirm={handleScheduled} doneText="Booking successful!" isLoading={isScheduling} isDone={isScheduled} err={scheduleErr} />
       </div>
       <button
         onClick={() => {
