@@ -3,8 +3,9 @@ import { useContext } from "react";
 import UserContext from "../UserContext";
 
 function BookingsScreen() {
-  condt data = useContext(UserContext)
-  const loggedUser = 
+  const data = useContext(UserContext);
+  const loggedUser = data[0].loggedUser;
+
   return <div>BookingsScreen</div>;
 }
 
