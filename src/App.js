@@ -13,6 +13,7 @@ import TimeScreen from "./components/TimeScreen/TimeScreen";
 import SettingsScreen from "./components/SettingsScreen/SettingsScreen";
 import RegisterScreen from "./components/RegisterScreen/RegisterScreen";
 import StripeContainer from "./components/Payments/StripeContainer";
+import Chat from "./components/Chat/Chat";
 import Header from "./components/Header/Header";
 
 const axios = require("axios");
@@ -27,6 +28,9 @@ const initialState = {
   rejectedUser: {},
   acceptedUser: {},
   matchedUser: {},
+  match: {},
+  bookingTime: "",
+  bookedTime: "",
 };
 
 const reducer = (state, action) => {
@@ -43,6 +47,9 @@ const reducer = (state, action) => {
     case "SET_MATCHED_USER":
       const matchedUser = action.payload;
       return { ...state, matchedUser: matchedUser };
+    case "SET_NEW_MATCH":
+      const match = action.payload;
+      return { ...state, match: match };
     case "SET_REJECTED_USER":
       const rejectedUser = action.payload;
       return { ...state, rejectedUser: rejectedUser, usersData: state.usersData.filter((x) => x !== rejectedUser) };
@@ -55,6 +62,12 @@ const reducer = (state, action) => {
     case "SET_USER_MATCHES":
       const matches = action.payload;
       return { ...state, loggedUserMatches: matches };
+    case "SET_BOOKING_TIME":
+      const time = action.payload;
+      return { ...state, bookingTime: time };
+    case "SET_BOOKED_TIME":
+      const bookedTime = action.payload;
+      return { ...state, bookedTime };
     default:
       return state;
   }
@@ -127,17 +140,30 @@ function App() {
   }, [state.rejectedUser._id]);
 
   useEffect(() => {
-    if (state.matchedUser._id && state.loggedUser._id) {
+    if (state.match._id && state.loggedUser._id) {
       axios
         .post(`${serverUrl}/results`, {
           uid1: state.loggedUser._id,
-          uid2: state.matchedUser._id,
+          uid2: state.match._id,
           status: "MATCH",
         })
         .then((response) => console.log(response))
         .catch((error) => console.log(error));
     }
-  }, [state.matchedUser._id]);
+  }, [state.match._id]);
+
+  useEffect(() => {
+    if (state.bookedTime && state.matchedUser._id) {
+      const newValue = [...state.matchedUser.availability, state.bookedTime];
+      axios
+        .patch(`${serverUrl}/users/${state.matchedUser._id}`, {
+          key: "availability",
+          value: newValue,
+        })
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
+    }
+  }, [state.bookedTime]);
 
   return (
     <div className="App">
@@ -148,10 +174,11 @@ function App() {
           <Route path="/match" element={<MatchScreen />} />
           <Route path="/matches" element={<MatchesScreen dispatch={dispatch} />} />
           <Route path="/user" element={<UserProfile dispatch={dispatch} />} />
-          <Route path="/time" element={<TimeScreen />} />
+          <Route path="/time" element={<TimeScreen dispatch={dispatch} />} />
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
-          <Route path="/payment" element={<StripeContainer />} />
+          <Route path="/payment" element={<StripeContainer dispatch={dispatch} />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </UserContext.Provider>
     </div>

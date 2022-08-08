@@ -13,15 +13,31 @@ function MatchCard({ matchedUser, dispatch }) {
         <div class="px-6 pt-4 pb-2">
           <span
             onClick={() => {
-              dispatch("SET_MATCHED_USER", matchedUser);
+              dispatch({ type: "SET_MATCHED_USER", payload: matchedUser });
               navigate("/time");
             }}
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+            className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
           >
             Book now!
           </span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Chat</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Bookings</span>
+          <span
+            onClick={() => {
+              dispatch({ type: "SET_MATCHED_USER", payload: matchedUser });
+              navigate("/chat");
+            }}
+            className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+          >
+            Chat
+          </span>
+          <span
+            onClick={() => {
+              dispatch({ type: "SET_MATCHED_USER", payload: matchedUser });
+              navigate("/bookings");
+            }}
+            className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+          >
+            Bookings
+          </span>
         </div>
       </div>
     </div>

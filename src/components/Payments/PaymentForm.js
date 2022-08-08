@@ -4,6 +4,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useState, useContext } from "react";
 import UserContext from "../UserContext";
 import serverUrl from "../../serverUrl";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const axios = require("axios");
 
@@ -27,16 +28,26 @@ const CARD_OPTIONS = {
   },
 };
 
-export default function PaymentForm() {
+export default function PaymentForm({ dispatch }) {
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const stripe = useStripe();
   const elements = useElements();
 
+  const navigate = useNavigate();
+
   const data = useContext(UserContext);
   const studentData = data[0].loggedUser;
   const teacherData = data[0].matchedUser;
+  const date = `${data[0].bookingTime.toISOString().split("T")[0]}`;
+  console.log(date);
+
+  function generateBooking() {
+    const bookedTime = data[0].bookingTime;
+    dispatch({ type: "SET_BOOKED_TIME", payload: bookedTime });
+    // navigate("/bookings");
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +67,7 @@ export default function PaymentForm() {
         if (response.data.success) {
           console.log("Successful payment");
           setSuccess(true);
+          generateBooking();
         }
       } catch (error) {
         console.log("Error", error);
@@ -68,13 +80,17 @@ export default function PaymentForm() {
   };
 
   return (
-    <div className="border-2 border-black rounded-lg p-2 py-4 shadow-lg bg-gray-50">
-      <div className="container my-5">
-        <h1 className="text-4xl mb-10 font-bold">Payment with Card:</h1>
-        <h2 className="text-xl mb-5 font-bold">Card owner: {studentData.name}</h2>
-        <h2 className="text-xl mb-5 font-bold">Payable to: {teacherData.name}</h2>
-        <h2 className="text-xl mb-10 font-bold">Amount: €{teacherData.price.toFixed(2)}</h2>
-      </div>
+    <div className="border-2 border-black rounded-lg p-2 py-4 shadow-lg bg-gray-50 mt-10">
+      {studentData && teacherData && (
+        <div className="container">
+          <h1 className="text-4xl mb-10 font-bold">Order Summary:</h1>
+          <h2 className="text-xl mb-5 font-bold">Card owner: {studentData.name}</h2>
+          <h2 className="text-xl mb-5 font-bold">Payable to: {teacherData.name}</h2>
+          <h2 className="text-xl mb-5 font-bold">Book: 1 class on {date}</h2>
+          <h2 className="text-xl mb-6 font-bold">Amount: €{teacherData.price.toFixed(2)}</h2>
+          <h1 className="text-4xl mb-2 mt-2 font-bold">Pay with card:</h1>
+        </div>
+      )}
       {!success && !failure ? (
         <form onSubmit={handleSubmit}>
           <fieldset className="FormGroup">

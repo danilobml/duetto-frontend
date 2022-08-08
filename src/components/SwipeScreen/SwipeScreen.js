@@ -43,8 +43,9 @@ function SwipeScreen({ dispatch }) {
       updateCurrentIndex(index - 1);
       if (data[0].loggedUser.selections.includes(user._id) || user.selections.includes(data[0].loggedUser._id)) {
         dispatch({ type: "SET_ACCEPTED_USER", payload: user });
+        dispatch({ type: "SET_NEW_MATCH", payload: user });
         dispatch({ type: "SET_MATCHED_USER", payload: user });
-        navigate("/payment");
+        navigate("/time");
       } else {
         dispatch({ type: "SET_ACCEPTED_USER", payload: user });
       }
