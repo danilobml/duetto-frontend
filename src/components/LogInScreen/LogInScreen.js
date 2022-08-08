@@ -2,7 +2,7 @@ import "./LogInScreen.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import icon from "../../images/logo.png";
-import serverUrl from "../../serverUrl";
+// import serverUrl from "../../serverUrl";
 
 const axios = require("axios");
 
@@ -15,13 +15,13 @@ function LogInScreen({ dispatch }) {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  console.log(userInput);
+  // console.log(serverUrl);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(serverUrl);
+    // console.log(serverUrl);
     axios
-      .post(`${serverUrl}/auth/login`, userInput)
+      .post(`https://duetto-api.herokuapp.com/auth/login`, userInput)
       .then((response) => {
         localStorage.setItem("user", JSON.stringify(response.data));
         dispatch({ type: "LOGIN", payload: response.data });

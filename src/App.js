@@ -170,7 +170,7 @@ function App() {
   }, [state.bookedTime]);
 
   useEffect(() => {
-    if (state.bookingData) {
+    if (state.bookingData.length) {
       axios
         .post(`${serverUrl}/booking`, state.bookingData)
         .then((response) => console.log(response))
