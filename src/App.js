@@ -31,6 +31,7 @@ const initialState = {
   match: {},
   bookingTime: "",
   bookedTime: "",
+  bookingData: {},
 };
 
 const reducer = (state, action) => {
@@ -68,6 +69,9 @@ const reducer = (state, action) => {
     case "SET_BOOKED_TIME":
       const bookedTime = action.payload;
       return { ...state, bookedTime };
+    case "SET_NEW_BOOKING":
+      const bookingData = action.payload;
+      return { ...state, bookingData };
     default:
       return state;
   }
@@ -164,6 +168,15 @@ function App() {
         .catch((error) => console.log(error));
     }
   }, [state.bookedTime]);
+
+  useEffect(() => {
+    if (state.bookingData) {
+      axios
+        .post(`${serverUrl}/booking`, state.bookingData)
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
+    }
+  }, [state.bookingData]);
 
   return (
     <div className="App">

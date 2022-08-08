@@ -19,6 +19,7 @@ function LogInScreen({ dispatch }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(serverUrl);
     axios
       .post(`${serverUrl}/auth/login`, userInput)
       .then((response) => {

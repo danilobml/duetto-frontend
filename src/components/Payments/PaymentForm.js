@@ -45,8 +45,23 @@ export default function PaymentForm({ dispatch }) {
 
   function generateBooking() {
     const bookedTime = data[0].bookingTime;
+    const bookingData = {
+      teacher_id: teacherData._id,
+      teacher_name: teacherData.name,
+      teacher_email: teacherData.email,
+      teacher_phone: teacherData.phone,
+      student_id: studentData._id,
+      student_name: studentData.name,
+      student_email: studentData.email,
+      student_phone: studentData.phone,
+      payed: true,
+      date: bookedTime,
+      time: bookedTime,
+      online: true,
+      confirmed: true,
+    };
     dispatch({ type: "SET_BOOKED_TIME", payload: bookedTime });
-    // navigate("/bookings");
+    dispatch({ type: "SET_NEW_BOOKING", payload: bookingData });
   }
 
   const handleSubmit = async (e) => {
