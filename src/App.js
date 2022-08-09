@@ -18,12 +18,14 @@ import BookingsScreenOne from "./components/BookingsScreen/BookingsScreenOne";
 import Booking from "./components/Booking/Booking";
 import Chat from "./components/Chat/Chat";
 import Header from "./components/Header/Header";
+import CreateUser from "./components/CreateUser/CreateUser";
 
 const axios = require("axios");
 
 const initialState = {
   logged: false,
   loggedEmail: null,
+  newUserEmail: "",
   token: "",
   loggedUser: {},
   usersData: [],
@@ -43,6 +45,9 @@ const reducer = (state, action) => {
       return { ...state, logged: true, loggedEmail: loggedEmail, token };
     case "LOGOUT":
       return { ...state, logged: false, loggedEmail: "", token: "" };
+    case "CREATE_USER_EMAIL":
+      const newUserEmail = action.payload;
+      return { ...state, newUserEmail: newUserEmail };
     case "SET_ACCEPTED_USER":
       const acceptedUser = action.payload;
       return { ...state, acceptedUser: acceptedUser, usersData: state.usersData.filter((x) => x !== acceptedUser) };
@@ -133,13 +138,14 @@ function App() {
           <Route path="/matches" element={<MatchesScreen dispatch={dispatch} />} />
           <Route path="/user" element={<UserProfile dispatch={dispatch} />} />
           <Route path="/time" element={<TimeScreen dispatch={dispatch} />} />
-          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/register" element={<RegisterScreen dispatch={dispatch} />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/payment" element={<StripeContainer dispatch={dispatch} />} />
           <Route path="/bookings" element={<BookingsScreen dispatch={dispatch} />} />
           <Route path="/bookings/:id" element={<BookingsScreenOne dispatch={dispatch} />} />
           <Route path="/booking/:id" element={<Booking />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/create" element={<CreateUser dispatch={dispatch} />} />
         </Routes>
       </UserContext.Provider>
     </div>

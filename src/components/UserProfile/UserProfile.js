@@ -39,18 +39,19 @@ function UserProfile({ dispatch, setRefresh, refresh }) {
           ) : (
             <h4>Price per hour: {user.price}</h4>
           )}
-          <a className="justify-center" href="/">
-            <button
-              onClick={async () => {
-                localStorage.removeItem("user");
-                dispatch("LOGOUT");
-              }}
-              className="size-md px-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 hover:drop-shadow-md duration-300 ease-in mt-2"
-              type="submit"
-            >
-              Logout
-            </button>
-          </a>
+          <div className="flex justify-center">
+            <a href="/">
+              <button
+                onClick={() => {
+                  localStorage.removeItem("user");
+                  dispatch("LOGOUT");
+                }}
+                className="size-sm px-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 hover:drop-shadow-md duration-300 ease-in mt-4"
+              >
+                Logout
+              </button>
+            </a>
+          </div>
         </div>
       )}
     </>
