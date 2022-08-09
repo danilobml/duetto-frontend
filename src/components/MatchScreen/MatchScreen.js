@@ -14,16 +14,27 @@ function MatchScreen() {
   }
 
   return (
-    <div className="match-main">
-      <h1 className="match-names text-3xl">You matched with: {user.name}!</h1>
-      <button
-        onClick={() => {
-          navigate("/time");
-        }}
-      >
-        Check availabilities
-      </button>
-      <h2 onClick={() => navigate(-1)}>Click to go back</h2>
+    <div className="match-main container">
+      <h1 className="match-names text-4xl">You matched with: {user.name}!</h1>
+      {user.role === "teacher" ? (
+        <button
+          className="text-lg"
+          onClick={() => {
+            navigate("/time");
+          }}
+        >
+          Check availabilities
+        </button>
+      ) : (
+        <>
+          <h2 className="w-5/6">Now, please wait for the student to book a class.</h2>
+          <h2> We'll let you know!</h2>
+        </>
+      )}
+      <br />
+      <h2 className="mt-4" onClick={() => navigate(-1)}>
+        Click to go back
+      </h2>
     </div>
   );
 }

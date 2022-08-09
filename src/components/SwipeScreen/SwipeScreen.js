@@ -16,6 +16,7 @@ function SwipeScreen({ dispatch }) {
   const usersData = data[0].usersData;
   const filteredUsersData = usersData.filter((x) => !data[0].loggedUser.rejections.includes(x._id) && !data[0].loggedUser.selections.includes(x._id));
   const loggedUser = data[0].loggedUser;
+  const [loggedUserSelections, setLoggedUserSelections] = useState(loggedUser.selections);
   const [reveal, setReveal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(filteredUsersData.length - 1);
   const [lastDirection, setLastDirection] = useState();
@@ -26,7 +27,20 @@ function SwipeScreen({ dispatch }) {
     setCurrentIndex(filteredUsersData.length - 1);
   }, [filteredUsersData]);
 
+  useEffect(() => {
+    getLoggedUser();
+  }, []);
+
   const navigate = useNavigate();
+
+  function getLoggedUser() {
+    axios
+      .get(`${serverUrl}/users/logged_user/${data[0].loggedEmail}`)
+      .then((response) => {
+        dispatch({ type: "SET_LOGGED_USER_DATA", payload: response.data });
+      })
+      .catch((error) => console.log(error));
+  }
 
   const childRefs = useMemo(
     () =>

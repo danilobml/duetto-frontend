@@ -16,7 +16,7 @@ function Header() {
   return (
     <div className="header-div bg-white opacity-1">
       <Link to="/user">
-        <img src={userPicture} alt="user" className="user-image" />
+        <img src={userPicture} alt="user" className="user-image rounded-full" />
       </Link>
       <img onClick={() => navigate("/")} src={icon} alt="icon duetto" className="icon" />
       <NavMenu />

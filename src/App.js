@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import UserContext from "./components/UserContext";
 
 import serverUrl from "./serverUrl";
+import SplashScreen from "./components/SplashScreen/SplashScreen";
 import MatchScreen from "./components/MatchScreen/MatchScreen";
 import MatchesScreen from "./components/MatchesScreen/MatchesScreen";
 import UserProfile from "./components/UserProfile/UserProfile";
@@ -36,6 +37,7 @@ const initialState = {
   matchedUser: {},
   bookingTime: "",
   usersBookings: [],
+  filter: "",
 };
 
 const reducer = (state, action) => {
@@ -73,6 +75,9 @@ const reducer = (state, action) => {
     case "SET_USERS_BOOKINGS":
       const bookings = action.payload;
       return { ...state, usersBookings: bookings };
+    case "SET_FILTER":
+      const filter = action.payload;
+      return { ...state, filter: filter.filter };
     default:
       return state;
   }
@@ -115,6 +120,7 @@ function App() {
     axios
       .get(`${serverUrl}/users/${state.loggedEmail}`)
       .then((response) => {
+        console.log(response.data);
         dispatch({ type: "SET_USERS_DATA", payload: response.data });
       })
       .catch((error) => console.log(error));
@@ -136,11 +142,12 @@ function App() {
         <Routes>
           {!state.logged ? <Route path="/" element={<LogInScreen dispatch={dispatch} />} /> : <Route path="/" element={<SwipeScreen dispatch={dispatch} />} />}
           <Route path="/match" element={<MatchScreen />} />
+          <Route path="/splash" element={<SplashScreen />} />
           <Route path="/matches" element={<MatchesScreen dispatch={dispatch} />} />
           <Route path="/user" element={<UserProfile dispatch={dispatch} />} />
           <Route path="/time" element={<TimeScreen dispatch={dispatch} />} />
           <Route path="/register" element={<RegisterScreen dispatch={dispatch} />} />
-          <Route path="/settings" element={<SettingsScreen />} />
+          <Route path="/settings" element={<SettingsScreen dispatch={dispatch} />} />
           <Route path="/update" element={<UpdateScreen />} />
           <Route path="/payment" element={<StripeContainer dispatch={dispatch} />} />
           <Route path="/bookings" element={<BookingsScreen dispatch={dispatch} />} />

@@ -23,7 +23,8 @@ function LogInScreen({ dispatch }) {
         localStorage.setItem("user", JSON.stringify(response.data));
         dispatch({ type: "LOGIN", payload: response.data });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
+    navigate("/splash");
   };
 
   return (

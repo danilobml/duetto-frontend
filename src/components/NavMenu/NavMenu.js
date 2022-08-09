@@ -25,19 +25,19 @@ function NavMenu() {
             </div>
             <ul onClick={() => setIsNavOpen((prev) => !prev)} className="MENU-LINK-MOBILE-OPEN flex flex-col items-center justify-between min-h-[250px]">
               <li className="border-b border-gray-400 my-8 uppercase">
-                <Link to="/">Match!</Link>
+                <a href="/">Match!</a>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <Link to="/update">Update Profile</Link>
+                <a href="/update">Update Profile</a>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <Link to="/settings">Change Settings</Link>
+                <a href="/settings">Change Settings</a>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <Link to="/matches">My Matches</Link>
+                <a href="/matches">My Matches</a>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <Link to="/bookings">Bookings</Link>
+                <a href="/bookings">Bookings</a>
               </li>
             </ul>
           </div>

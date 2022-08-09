@@ -1,0 +1,27 @@
+.big-icon{
+    width: 120px;
+    position: fixed;
+    top: 40%;
+    left: 32%;
+    animation: fadeIn 0.9s linear;
+}
+
+
+.icon-div{
+    height: 100vh;
+    width: 100vw;
+    z-index: 1000000000000000;
+    background-color: white;
+    animation: fadeOut 700ms linear;
+    animation-delay: 2.4s;
+}
+
+@keyframes fadeOut {
+    100% { opacity: 0}
+    0% { opacity: 1 }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
