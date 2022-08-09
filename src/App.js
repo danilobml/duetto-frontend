@@ -14,6 +14,7 @@ import SettingsScreen from "./components/SettingsScreen/SettingsScreen";
 import RegisterScreen from "./components/RegisterScreen/RegisterScreen";
 import StripeContainer from "./components/Payments/StripeContainer";
 import BookingsScreen from "./components/BookingsScreen/BookingsScreen";
+import UpdateScreen from "./components/UpdateScreen/UpdateScreen";
 import BookingsScreenOne from "./components/BookingsScreen/BookingsScreenOne";
 import Booking from "./components/Booking/Booking";
 import Chat from "./components/Chat/Chat";
@@ -140,6 +141,7 @@ function App() {
           <Route path="/time" element={<TimeScreen dispatch={dispatch} />} />
           <Route path="/register" element={<RegisterScreen dispatch={dispatch} />} />
           <Route path="/settings" element={<SettingsScreen />} />
+          <Route path="/update" element={<UpdateScreen />} />
           <Route path="/payment" element={<StripeContainer dispatch={dispatch} />} />
           <Route path="/bookings" element={<BookingsScreen dispatch={dispatch} />} />
           <Route path="/bookings/:id" element={<BookingsScreenOne dispatch={dispatch} />} />

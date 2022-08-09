@@ -14,7 +14,7 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <div className="header-div">
+    <div className="header-div bg-white opacity-1">
       <Link to="/user">
         <img src={userPicture} alt="user" className="user-image" />
       </Link>

@@ -72,7 +72,7 @@ function CreateUser({ dispatch }) {
 
   return (
     <div>
-      <form onSubmit={(e) => handleSubmit(e)} className="p-10 pb-1 bg-white rounded-xl drop-shadow-sm space-y-5" style={{ width: "97%", maxWidth: "500px" }}>
+      <form onSubmit={(e) => handleSubmit(e)} className="p-10 pb-1 bg-white rounded-xl drop-shadow-sm space-y-3" style={{ width: "97%", maxWidth: "500px" }}>
         <h1 className="text-3xl">Create new account:</h1>
         <div class="flex items-center mb-4">
           <label className="text-sm font-light mr-2" htmlFor="role">
@@ -111,56 +111,95 @@ function CreateUser({ dispatch }) {
           </label>
         </div>
         <div className="flex flex-col space-y-2">
+          <label for="name" class="block text-gray-400 dark:text-gray-400">
+            Name
+          </label>
           <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="text" placeholder="Your Name*" name="name" id="names" required />
         </div>
         <div className="flex flex-col space-y-2">
+          <label for="email" class="block text-gray-400 dark:text-gray-400">
+            Email
+          </label>
           <input style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="email" value={newEmail} name="email" id="email" readonly />
         </div>
         <div className="flex flex-col space-y-2">
+          <label for="password" class="block text-gray-400 dark:text-gray-400">
+            Password
+          </label>
           <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="password" placeholder="Your Password*" name="password" id="password" required />
         </div>
         <div className="flex flex-col space-y-2">
+          <label for="age" class="block text-gray-400 dark:text-gray-400">
+            Age
+          </label>
           <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="number" placeholder="Age (optional)" name="age" id="age" />
         </div>
         <div className="flex flex-col space-y-2">
+          <label for="location" class="block text-gray-400 dark:text-gray-400">
+            Location
+          </label>
           <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="text" placeholder="Location*" name="location" id="location" required />
         </div>
         <div className="flex flex-col space-y-2">
+          <label for="phone" class="block text-gray-400 dark:text-gray-400">
+            Phone
+          </label>
           <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="text" placeholder="Your phone number" name="phone" id="phone" />
         </div>
         {role === "teacher" && (
           <div className="flex flex-col space-y-2">
+            <label for="price" class="block text-gray-400 dark:text-gray-400">
+              Price
+            </label>
             <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="number" placeholder="Price € *" name="price" id="price" />
           </div>
         )}
         {role === "student" && (
           <>
             <div className="flex flex-col space-y-2">
+              <label for="min_price" class="block text-gray-400 dark:text-gray-400">
+                Min Price
+              </label>
               <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="number" placeholder="Min Price €" name="min_price" id="min_price" />
             </div>
             <div className="flex flex-col space-y-2">
+              <label for="max_price" class="block text-gray-400 dark:text-gray-400">
+                Max Price
+              </label>
               <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="number" placeholder="Max Price €" name="max_price" id="max_price" />
             </div>
           </>
         )}
         <div className="flex flex-col space-y-2">
+          <label for="profile_picture" class="block text-gray-400 dark:text-gray-400">
+            Profile Picture
+          </label>
           <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="text" placeholder="Link to your profile pic*" name="profile_picture" id="profile_picture" required />
         </div>
         <div className="flex flex-col space-y-2">
+          <label for="video" class="block text-gray-400 dark:text-gray-400">
+            Video
+          </label>
           <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="text" placeholder="Link to your demo video*" name="video" id="video" required />
         </div>
         <div className="flex flex-col space-y-2">
+          <label for="instruments" class="block text-gray-400 dark:text-gray-400">
+            Instruments
+          </label>
           <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="text" placeholder={role === "teacher" ? "Instruments you teach" : "Instruments you play"} name="instruments" id="instruments" />
+          <label htmlFor="instruments" className="text-xs mt-0">
+            (separated only by a comma)
+          </label>
         </div>
-        <label htmlFor="instruments" className="text-xs mt-0">
-          (separated only by a comma)
-        </label>
         <div className="flex flex-col space-y-2">
+          <label for="styles" class="block text-gray-400 dark:text-gray-400">
+            Styles
+          </label>
           <input onInput={(e) => handleInput(e)} style={{ width: "100%", maxWidth: "340px" }} className="w-96 px-3 py-1 rounded-md border border-slate-400" type="text" placeholder={role === "teacher" ? "Styles you teach" : "Styles you play"} name="styles" id="styles" />
+          <label htmlFor="styles" className="text-xs mt-0">
+            (separated only by a comma)
+          </label>
         </div>
-        <label htmlFor="styles" className="text-xs mt-0">
-          (separated only by a comma)
-        </label>
         <div class="flex items-center mb-4">
           <label className="text-sm font-light mr-2" htmlFor="role">
             Modality*:
