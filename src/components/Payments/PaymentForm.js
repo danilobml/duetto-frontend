@@ -46,11 +46,12 @@ export default function PaymentForm() {
 
   const text = `<h4>Class booked on ${today}</h4>
     <h4><Order Summary:</h4>
-    <h5>Card owner (Student): ${studentData.name}</h5>
-    <h5>Payable to (Teacher)): ${teacherData.name}</h5>
+    <h5>Card owner (student): ${studentData.name}</h5>
+    <h5>Payable to (teacher): ${teacherData.name}</h5>
     <h5>Booked: 1, 30 minutes class on ${date}</h5>
     <h5>Amount Payed: €${teacherData.price.toFixed(2)}</h5>
-    <h5>Payed with CreditCard</h5>`;
+    <h5>Payed with CreditCard</h5>
+    <h6>Manage your bookings on the Duetto App`;
 
   // const mailStudent = studentData.email;
   const mailStudent = "dangeschichte@gmail.com";

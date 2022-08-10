@@ -28,16 +28,16 @@ function NavMenu() {
                 <a href="/">Match!</a>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/update">Update Profile</a>
+                <Link to="/update">Update Profile</Link>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/settings">Change Settings</a>
+                <Link to="/settings">Change Settings</Link>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/matches">My Matches</a>
+                <Link to="/matches">My Matches</Link>
               </li>
               <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/bookings">Bookings</a>
+                <Link to="/bookings">Bookings</Link>
               </li>
             </ul>
           </div>
