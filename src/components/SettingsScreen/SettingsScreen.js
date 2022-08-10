@@ -1,22 +1,46 @@
 import "./SettingsScreen.css";
 import { useState, useContext } from "react";
+import UserContext from "../UserContext";
+import serverUrl from "../../serverUrl";
+const axios = require("axios");
 
 function SettingsScreen({ dispatch }) {
   const [userInput, setUserInput] = useState();
-
-  console.log(userInput);
-
+  const data = useContext(UserContext);
+  console.log("qwdqwdqwdqwdqwdwdwd", data[0].filters);
   const handleInput = (e) => {
-    setUserInput({ filter: e.target.value });
+    setUserInput({ filters: e.target.value });
+    console.log(e.target.value);
   };
+
+  function updateMatches() {
+    console.log(
+      `${serverUrl}/users/${data[0].loggedEmail}/?f=${data[0].filters
+        .filter((f) => f.checked)
+        .map((f) => f.value)
+        .join(",")}`
+    );
+    axios
+      .get(
+        `${serverUrl}/users/${data[0].loggedEmail}/?f=${data[0].filters
+          .filter((f) => f.checked)
+          .map((f) => f.value)
+          .join(",")}`
+      )
+      .then((response) => {
+        console.log(response.data);
+        dispatch({ type: "SET_USERS_DATA", payload: response.data });
+      })
+      .catch((error) => console.log(error));
+  }
 
   return (
     <div className="container flex flex-col h-screen mt-12 justify-start p-5 place-content-around">
       <div className="settings mt-12">
-        <label for="filters" class="block text-xl font-medium text-gray-900 dark:text-gray-400 text-center">
+        <label for="filters" class="mb-5 block text-2xl font-medium text-gray-900 dark:text-gray-400 text-center">
           Search settings:
         </label>
-        <select
+        <form
           onChange={(e) => {
             handleInput(e);
           }}
@@ -24,23 +48,23 @@ function SettingsScreen({ dispatch }) {
           name="filter"
           class="justify-self-start bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
-          <option selected value="">
-            No filter
-          </option>
-          <option value="location">Location</option>
-          <option value="online">Online classes</option>
-          <option value="in_person">In person classes</option>
-          <option value="instruments">Instrument</option>
-          <option value="styles">Styles</option>
-        </select>
+          {data[0] ? (
+            <>
+              {data[0].filters.map((f, i) => (
+                <>
+                  <input type="checkbox" value={f.value} onChange={() => dispatch({ type: "SET_FILTERS", payload: data[0].filters.map((f, j) => (i === j ? { ...f, checked: !f.checked } : f)) })} checked={f.checked} /> {f.label} <br />
+                </>
+              ))}
+            </>
+          ) : (
+            ""
+          )}
+        </form>
       </div>
       <div>
-        <button onClick={() => dispatch({ type: "SET_FILTER", payload: userInput })} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-60">
-          Confirm
+        <button onClick={updateMatches} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-36">
+          Save Preferences
         </button>
-        <a href="/">
-          <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-60">Go Match!</button>
-        </a>
       </div>
     </div>
   );

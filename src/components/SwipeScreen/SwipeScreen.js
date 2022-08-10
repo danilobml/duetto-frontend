@@ -67,10 +67,12 @@ function SwipeScreen({ dispatch }) {
   }
 
   function processNewMatch(user) {
+    const chatString = Math.random().toString(34).slice(2);
     axios
       .post(`${serverUrl}/results`, {
         uid1: loggedUser._id,
         uid2: user._id,
+        chatChannel: chatString,
         status: "MATCH",
       })
       .then((response) => console.log(response))

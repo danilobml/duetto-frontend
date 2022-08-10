@@ -2,7 +2,7 @@ import "./Header.css";
 import icon from "../../images/logo.png";
 import { useContext } from "react";
 import UserContext from "../UserContext";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import NavMenu from "../NavMenu/NavMenu";
 import { useNavigate } from "react-router-dom";

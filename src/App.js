@@ -37,7 +37,13 @@ const initialState = {
   matchedUser: {},
   bookingTime: "",
   usersBookings: [],
-  filter: "",
+  filters: [
+    { value: "location", checked: false, label: "Location" },
+    { value: "online", checked: true, label: "Online classes" },
+    { value: "in_person", checked: false, label: "In person classes" },
+    { value: "instruments", checked: true, label: "Instrument" },
+    { value: "styles", checked: false, label: "Styles" },
+  ],
 };
 
 const reducer = (state, action) => {
@@ -75,9 +81,9 @@ const reducer = (state, action) => {
     case "SET_USERS_BOOKINGS":
       const bookings = action.payload;
       return { ...state, usersBookings: bookings };
-    case "SET_FILTER":
-      const filter = action.payload;
-      return { ...state, filter: filter.filter };
+    case "SET_FILTERS":
+      const filters = action.payload;
+      return { ...state, filters };
     default:
       return state;
   }
@@ -120,7 +126,6 @@ function App() {
     axios
       .get(`${serverUrl}/users/${state.loggedEmail}`)
       .then((response) => {
-        console.log(response.data);
         dispatch({ type: "SET_USERS_DATA", payload: response.data });
       })
       .catch((error) => console.log(error));

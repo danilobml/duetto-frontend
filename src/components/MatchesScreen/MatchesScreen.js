@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import UserContext from "../UserContext";
 
 import MatchCard from "../MatchCard/MatchCard";
-
 import serverUrl from "../../serverUrl";
 
 const axios = require("axios");
@@ -11,10 +10,8 @@ function MatchesScreen({ dispatch }) {
   const data = useContext(UserContext);
   const usersData = data[0].usersData;
   const userId = data[0].loggedUser._id;
-  let matchIds = [];
   const [matches, setMatches] = useState();
-
-  console.log(usersData);
+  let matchIds = [];
 
   useEffect(() => {
     if (userId) {
@@ -32,6 +29,8 @@ function MatchesScreen({ dispatch }) {
       .catch((error) => console.log(error));
   }
 
+  console.log({ matches });
+
   if (matches) {
     matchIds = matches.map((match) => {
       if (match.uid1 !== userId) {
@@ -41,6 +40,10 @@ function MatchesScreen({ dispatch }) {
       }
     });
   }
+
+  console.log({ matchIds });
+
+  console.log({ usersData });
 
   return (
     <>
