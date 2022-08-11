@@ -33,6 +33,7 @@ function SwipeCard({ childRefs, onSwipe, user, reveal, index, playing, setPlayin
               <h4>
                 Classes: {user.online && "Online"} {user.online && user.in_person && "/"} {user.in_person && "In person"}
               </h4>
+              {user.role === "student" && <h4>Level: {user.level}</h4>}
               {user.role === "teacher" && <h4>Price: {user.price} Euros/hour</h4>}
             </div>
           ) : (
