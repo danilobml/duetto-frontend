@@ -138,7 +138,7 @@ function SwipeScreen({ dispatch }) {
             // .filter((user) => !matches.includes(user._id))
             .map((user, index) => (
               <>
-                <SwipeCard key={user._id} onSwipe={(dir) => swiped(dir, user, index)} user={user} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
+                <SwipeCard key={index} onSwipe={(dir) => swiped(dir, user, index)} user={user} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
                 <div className="footer">
                   <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} playing={playing} setPlaying={setPlaying} />
                 </div>

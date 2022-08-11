@@ -33,9 +33,12 @@ function UserProfile({ dispatch, setRefresh, refresh }) {
             Preferred classes: {user.online && "Online"} {user.online && user.in_person && "/"} {user.in_person && "In person"}
           </h4>
           {user.role === "student" ? (
-            <h4>
-              Desired price range: from {user.min_price}Euros /hour to {user.max_price}Euros /hour
-            </h4>
+            <>
+              <h4>Level: {user.level}</h4>
+              <h4>
+                Desired price range: from {user.min_price}Euros /hour to {user.max_price}Euros /hour
+              </h4>
+            </>
           ) : (
             <h4>Price per hour: {user.price}</h4>
           )}

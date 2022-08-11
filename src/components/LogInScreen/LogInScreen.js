@@ -8,6 +8,7 @@ const axios = require("axios");
 
 function LogInScreen({ dispatch }) {
   const [userInput, setUserInput] = useState({});
+  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,9 +23,12 @@ function LogInScreen({ dispatch }) {
       .then((response) => {
         localStorage.setItem("user", JSON.stringify(response.data));
         dispatch({ type: "LOGIN", payload: response.data });
+        navigate("/splash");
       })
-      .catch((error) => console.error(error));
-    navigate("/splash");
+      .catch((error) => {
+        console.error(error);
+        setError(true);
+      });
   };
 
   return (
@@ -52,6 +56,7 @@ function LogInScreen({ dispatch }) {
             <button className="w-full px-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 hover:drop-shadow-md duration-300 ease-in" type="submit">
               Log In
             </button>
+            {error && <p className="text-red-600">Login failed, please type a valid email and password.</p>}
             <h2 className="text-center text-xl">Or register a new account:</h2>
             <button onClick={() => navigate("/register")} className="w-full px-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 hover:drop-shadow-md duration-300 ease-in" type="submit">
               Register

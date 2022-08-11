@@ -7,7 +7,6 @@ const axios = require("axios");
 function SettingsScreen({ dispatch }) {
   const [userInput, setUserInput] = useState();
   const data = useContext(UserContext);
-  console.log("qwdqwdqwdqwdqwdwdwd", data[0].filters);
   const handleInput = (e) => {
     setUserInput({ filters: e.target.value });
     console.log(e.target.value);
@@ -37,7 +36,7 @@ function SettingsScreen({ dispatch }) {
   return (
     <div className="container flex flex-col h-screen mt-12 justify-start p-5 place-content-around">
       <div className="settings mt-12">
-        <label for="filters" class="mb-5 block text-2xl font-medium text-gray-900 dark:text-gray-400 text-center">
+        <label for="filters" class="mb-12 block text-2xl font-medium text-gray-900 dark:text-gray-400 text-center">
           Search settings:
         </label>
         <form
@@ -52,7 +51,7 @@ function SettingsScreen({ dispatch }) {
             <>
               {data[0].filters.map((f, i) => (
                 <>
-                  <input type="checkbox" value={f.value} onChange={() => dispatch({ type: "SET_FILTERS", payload: data[0].filters.map((f, j) => (i === j ? { ...f, checked: !f.checked } : f)) })} checked={f.checked} /> {f.label} <br />
+                  <input key={i} type="checkbox" value={f.value} onChange={() => dispatch({ type: "SET_FILTERS", payload: data[0].filters.map((f, j) => (i === j ? { ...f, checked: !f.checked } : f)) })} checked={f.checked} /> {f.label} <br />
                 </>
               ))}
             </>
@@ -62,7 +61,7 @@ function SettingsScreen({ dispatch }) {
         </form>
       </div>
       <div>
-        <button onClick={updateMatches} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-36">
+        <button onClick={updateMatches} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-32">
           Save Preferences
         </button>
       </div>

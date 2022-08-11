@@ -17,7 +17,7 @@ function MatchesScreen({ dispatch }) {
     if (userId) {
       getLoggedUserMatches();
     }
-  }, [userId]);
+  }, []);
 
   function getLoggedUserMatches() {
     axios
@@ -29,8 +29,6 @@ function MatchesScreen({ dispatch }) {
       .catch((error) => console.log(error));
   }
 
-  console.log({ matches });
-
   if (matches) {
     matchIds = matches.map((match) => {
       if (match.uid1 !== userId) {
@@ -41,13 +39,9 @@ function MatchesScreen({ dispatch }) {
     });
   }
 
-  console.log({ matchIds });
-
-  console.log({ usersData });
-
   return (
     <>
-      {!matchIds ? (
+      {!matchIds.length ? (
         <div>
           <h1 className="font-bold text-2xl">No matches yet.</h1>
           <h1 className="font-bold text-2xl"> Keep on swiping!</h1>

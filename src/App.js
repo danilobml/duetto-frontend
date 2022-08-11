@@ -38,10 +38,10 @@ const initialState = {
   bookingTime: "",
   usersBookings: [],
   filters: [
-    { value: "location", checked: false, label: "Location" },
-    { value: "online", checked: true, label: "Online classes" },
-    { value: "in_person", checked: false, label: "In person classes" },
+    { value: "location", checked: true, label: "Location" },
     { value: "instruments", checked: true, label: "Instrument" },
+    { value: "online", checked: false, label: "Online classes" },
+    { value: "in_person", checked: false, label: "In person classes" },
     { value: "styles", checked: false, label: "Styles" },
   ],
 };
