@@ -14,6 +14,7 @@ function CreateUser({ dispatch }) {
   const [showSuccess, setShowSuccess] = useState(false);
   const data = useContext(UserContext);
   const loggedUser = data[0].loggedUser;
+  const token = data[0].token;
 
   const navigate = useNavigate();
 
@@ -61,6 +62,7 @@ function CreateUser({ dispatch }) {
       availability: [],
       selections: [],
       rejections: [],
+      token,
     });
   }
 

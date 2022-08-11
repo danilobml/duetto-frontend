@@ -41,6 +41,7 @@ export default function PaymentForm() {
   const studentData = data[0].loggedUser;
   const teacherData = data[0].matchedUser;
   const bookedTime = data[0].bookingTime;
+  const token = data[0].token;
   const date = `${data[0].bookingTime.toISOString().split("T")[0]}`;
   const today = new Date().toISOString().split("T")[0];
 
@@ -111,6 +112,7 @@ export default function PaymentForm() {
         const response = await axios.post(`${serverUrl}/payment`, {
           amount: teacherData.price * 100,
           id,
+          token,
         });
 
         if (response.data.success) {
@@ -192,7 +194,7 @@ export default function PaymentForm() {
         onClick={() => {
           navigate("/bookings");
         }}
-        className="size-md px-10 bg-blue-600 text-white rounded-md hover:bg-blue-500 hover:drop-shadow-md duration-300 ease-in mt-4"
+        className="size-md px-10 bg-blue-600 text-white rounded-md hover:bg-blue-500 hover:drop-shadow-md duration-300 ease-in mt-3"
       >
         Go to Bookings
       </button>
