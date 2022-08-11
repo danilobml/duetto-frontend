@@ -18,6 +18,7 @@ function BookingsScreen({ dispatch }) {
     axios
       .get(`${serverUrl}/bookings/${loggedUser._id}`)
       .then((response) => {
+        dispatch({ type: "SET_USERS_BOOKINGS", payload: response.data });
         if (loggedUser.role === "student") {
           setUserBookings(response.data.filter((booking) => booking.teacher_id === id));
         } else {
@@ -26,6 +27,8 @@ function BookingsScreen({ dispatch }) {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  console.log(userBookings);
 
   return (
     <div>

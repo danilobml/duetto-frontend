@@ -1,20 +1,30 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import UserContext from "../UserContext";
 
 import serverUrl from "../../serverUrl";
 
 const axios = require("axios");
 
-function Booking() {
+function Booking({ dispatch }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const data = useContext(UserContext);
   const loggedUser = data[0].loggedUser;
-  const bookings = data[0].usersBookings;
+  const [bookings, setBookings] = useState(data[0].usersBookings);
   const currentBooking = bookings.find((booking) => booking._id === id);
   const date = currentBooking.date.split("T")[0];
   const time = currentBooking.date.substring(currentBooking.date.indexOf("T") + 1).split(".")[0];
+
+  useEffect(() => {
+    axios
+      .get(`${serverUrl}/bookings/${loggedUser._id}`)
+      .then((response) => {
+        setBookings(response.data);
+        dispatch({ type: "SET_USERS_BOOKINGS", payload: response.data });
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   function handleStatusChange(status) {
     axios
@@ -87,19 +97,5 @@ function Booking() {
     </div>
   );
 }
-
-// teacher_id: teacherData._id,
-//       teacher_name: teacherData.name,
-//       teacher_email: teacherData.email,
-//       teacher_phone: teacherData.phone,
-//       student_id: studentData._id,
-//       student_name: studentData.name,
-//       student_email: studentData.email,
-//       student_phone: studentData.phone,
-//       payed: true,
-//       date: bookedTime,
-//       time: bookedTime,
-//       online: true,
-//       confirmed: true,
 
 export default Booking;

@@ -157,7 +157,7 @@ function App() {
           <Route path="/payment" element={<StripeContainer dispatch={dispatch} />} />
           <Route path="/bookings" element={<BookingsScreen dispatch={dispatch} />} />
           <Route path="/bookings/:id" element={<BookingsScreenOne dispatch={dispatch} />} />
-          <Route path="/booking/:id" element={<Booking />} />
+          <Route path="/booking/:id" element={<Booking dispatch={dispatch} />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/create" element={<CreateUser dispatch={dispatch} />} />
         </Routes>
