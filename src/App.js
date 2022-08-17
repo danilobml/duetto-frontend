@@ -2,6 +2,7 @@ import "./App.css";
 import { useEffect, useReducer } from "react";
 import { Routes, Route } from "react-router-dom";
 import UserContext from "./components/UserContext";
+import { BrowserRouter } from "react-router-dom";
 
 import serverUrl from "./serverUrl";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
@@ -38,10 +39,26 @@ const initialState = {
   bookingTime: "",
   usersBookings: [],
   filters: [
-    { value: "location", checked: false, label: "Location" },
-    { value: "instruments", checked: false, label: "Instrument" },
-    { value: "online", checked: false, label: "Online classes" },
-    { value: "in_person", checked: false, label: "In person classes" },
+    {
+      value: "location",
+      checked: false,
+      label: "Location",
+    },
+    {
+      value: "instruments",
+      checked: false,
+      label: "Instrument",
+    },
+    {
+      value: "online",
+      checked: false,
+      label: "Online classes",
+    },
+    {
+      value: "in_person",
+      checked: false,
+      label: "In person classes",
+    },
     { value: "styles", checked: false, label: "Styles" },
   ],
 };
@@ -51,21 +68,39 @@ const reducer = (state, action) => {
     case "LOGIN":
       const loggedEmail = action.payload.email;
       const token = action.payload.token;
-      return { ...state, logged: true, loggedEmail: loggedEmail, token };
+      return {
+        ...state,
+        logged: true,
+        loggedEmail: loggedEmail,
+        token,
+      };
     case "LOGOUT":
-      return { ...state, logged: false, loggedEmail: "", token: "" };
+      return {
+        ...state,
+        logged: false,
+        loggedEmail: "",
+        token: "",
+      };
     case "CREATE_USER_EMAIL":
       const newUserEmail = action.payload;
       return { ...state, newUserEmail: newUserEmail };
     case "SET_ACCEPTED_USER":
       const acceptedUser = action.payload;
-      return { ...state, acceptedUser: acceptedUser, usersData: state.usersData.filter((x) => x !== acceptedUser) };
+      return {
+        ...state,
+        acceptedUser: acceptedUser,
+        usersData: state.usersData.filter((x) => x !== acceptedUser),
+      };
     case "SET_MATCHED_USER":
       const matchedUser = action.payload;
       return { ...state, matchedUser: matchedUser };
     case "SET_REJECTED_USER":
       const rejectedUser = action.payload;
-      return { ...state, rejectedUser: rejectedUser, usersData: state.usersData.filter((x) => x !== rejectedUser) };
+      return {
+        ...state,
+        rejectedUser: rejectedUser,
+        usersData: state.usersData.filter((x) => x !== rejectedUser),
+      };
     case "SET_USERS_DATA":
       const users = action.payload;
       return { ...state, usersData: users };
@@ -117,7 +152,10 @@ function App() {
     axios
       .get(`${serverUrl}/users/logged_user/${state.loggedEmail}`)
       .then((response) => {
-        dispatch({ type: "SET_LOGGED_USER_DATA", payload: response.data });
+        dispatch({
+          type: "SET_LOGGED_USER_DATA",
+          payload: response.data,
+        });
       })
       .catch((error) => console.log(error));
   }
@@ -126,7 +164,10 @@ function App() {
     axios
       .get(`${serverUrl}/users/${state.loggedEmail}`)
       .then((response) => {
-        dispatch({ type: "SET_USERS_DATA", payload: response.data });
+        dispatch({
+          type: "SET_USERS_DATA",
+          payload: response.data,
+        });
       })
       .catch((error) => console.log(error));
   }
@@ -135,7 +176,10 @@ function App() {
     axios
       .get(`${serverUrl}/results/${state.loggedUser._id}`)
       .then((response) => {
-        dispatch({ type: "SET_USER_MATCHES", payload: response.data });
+        dispatch({
+          type: "SET_USER_MATCHES",
+          payload: response.data,
+        });
       })
       .catch((error) => console.log(error));
   }
@@ -144,8 +188,12 @@ function App() {
     <div className="App">
       <UserContext.Provider value={[state, dispatch]}>
         {state.logged && <Header />}
+        {/* <BrowserRouter> */}
         <Routes>
-          {!state.logged ? <Route path="/" element={<LogInScreen dispatch={dispatch} />} /> : <Route path="/" element={<SwipeScreen dispatch={dispatch} />} />}
+          <Route
+            path="/"
+            element={!state.logged ? <LogInScreen dispatch={dispatch} /> : <SwipeScreen dispatch={dispatch} />}
+          />
           <Route path="/match" element={<MatchScreen />} />
           <Route path="/splash" element={<SplashScreen />} />
           <Route path="/matches" element={<MatchesScreen dispatch={dispatch} />} />
@@ -160,7 +208,9 @@ function App() {
           <Route path="/booking/:id" element={<Booking dispatch={dispatch} />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/create" element={<CreateUser dispatch={dispatch} />} />
+          {/* </Route> */}
         </Routes>
+        {/* </BrowserRouter> */}
       </UserContext.Provider>
     </div>
   );

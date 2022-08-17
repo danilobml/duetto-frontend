@@ -10,21 +10,23 @@ function MatchesScreen({ dispatch }) {
   const data = useContext(UserContext);
   const usersData = data[0].usersData;
   const userId = data[0].loggedUser._id;
-  const [matches, setMatches] = useState();
+  const matches = data[0].loggedUserMatches;
+
   let matchIds = [];
 
   useEffect(() => {
-    if (userId) {
+    if (data[0].loggedUser && !matches) {
       getLoggedUserMatches();
     }
-  }, []);
+  }, [data]);
 
   function getLoggedUserMatches() {
     axios
       .get(`${serverUrl}/results/${userId}`)
       .then((response) => {
+        console.log("🚀 ~ file: MatchesScreen.js ~ line 32 ~ .then ~ response", response);
+
         dispatch({ type: "SET_USER_MATCHES", payload: response.data });
-        setMatches(response.data);
       })
       .catch((error) => console.log(error));
   }

@@ -1,4 +1,3 @@
-import "./BookingsScreen.css";
 import { useState, useContext, useEffect } from "react";
 import UserContext from "../UserContext";
 import serverUrl from "../../serverUrl";

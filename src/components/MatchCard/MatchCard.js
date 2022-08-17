@@ -1,4 +1,3 @@
-import "./MatchCard.css";
 import { useNavigate } from "react-router-dom";
 
 function MatchCard({ matchedUser, dispatch }) {

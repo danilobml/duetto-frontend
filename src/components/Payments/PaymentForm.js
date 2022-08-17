@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const axios = require("axios");
 
+// TODO: put this in a stripeConfig.js file and imported here:
 const CARD_OPTIONS = {
   iconStyle: "solid",
   style: {
@@ -45,6 +46,7 @@ export default function PaymentForm() {
   const date = `${data[0].bookingTime.toISOString().split("T")[0]}`;
   const today = new Date().toISOString().split("T")[0];
 
+  // TODO: Put this in an emailService.js file:
   const text = `<h4>Class booked on ${today}</h4>
     <h4><Order Summary:</h4>
     <h5>Card owner (student): ${studentData.name}</h5>
@@ -59,6 +61,7 @@ export default function PaymentForm() {
   // const mailTeacher = teacherData.email;
   const mailTeacher = "danilobml@hotmail.com";
 
+  // TODO: put this in a bookingService.js file:
   function processNewBooking(bookingData) {
     axios
       .post(`${serverUrl}/bookings`, bookingData)
@@ -66,6 +69,7 @@ export default function PaymentForm() {
       .catch((error) => console.log(error));
   }
 
+  // TODO: put this in a teacherService.js file:
   function updateTeacherAvailability() {
     const newValue = [...teacherData.availability, bookedTime];
     axios
@@ -77,6 +81,7 @@ export default function PaymentForm() {
       .catch((error) => console.log(error));
   }
 
+  // TODO: put this in a bookingService.js file:
   function generateBooking() {
     const bookingData = {
       teacher_id: teacherData._id,
@@ -132,6 +137,7 @@ export default function PaymentForm() {
     }
   };
 
+  // TODO: put this in a emailService.js file:
   async function handleSendStudent() {
     setSent(true);
     try {
@@ -144,6 +150,7 @@ export default function PaymentForm() {
     }
   }
 
+  // TODO: set mail as a parameter and that will be 1 function
   async function handleSendTeacher() {
     setSent(true);
     try {

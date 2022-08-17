@@ -1,4 +1,3 @@
-import "./SettingsScreen.css";
 import { useState, useContext } from "react";
 import UserContext from "../UserContext";
 import serverUrl from "../../serverUrl";
@@ -7,6 +6,8 @@ const axios = require("axios");
 function SettingsScreen({ dispatch }) {
   const [userInput, setUserInput] = useState();
   const data = useContext(UserContext);
+  console.log(data);
+
   const handleInput = (e) => {
     setUserInput({ filters: e.target.value });
     console.log(e.target.value);
@@ -51,7 +52,19 @@ function SettingsScreen({ dispatch }) {
             <>
               {data[0].filters.map((f, i) => (
                 <>
-                  <input key={i} type="checkbox" value={f.value} onChange={() => dispatch({ type: "SET_FILTERS", payload: data[0].filters.map((f, j) => (i === j ? { ...f, checked: !f.checked } : f)) })} checked={f.checked} /> {f.label} <br />
+                  <input
+                    key={i}
+                    type="checkbox"
+                    value={f.value}
+                    onChange={() =>
+                      dispatch({
+                        type: "SET_FILTERS",
+                        payload: data[0].filters.map((f, j) => (i === j ? { ...f, checked: !f.checked } : f)),
+                      })
+                    }
+                    checked={f.checked}
+                  />{" "}
+                  {f.label} <br />
                 </>
               ))}
             </>
@@ -61,7 +74,10 @@ function SettingsScreen({ dispatch }) {
         </form>
       </div>
       <div>
-        <button onClick={updateMatches} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-32">
+        <button
+          onClick={updateMatches}
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-32"
+        >
           Save Preferences
         </button>
       </div>

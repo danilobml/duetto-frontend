@@ -18,7 +18,7 @@ function Booking({ dispatch }) {
 
   useEffect(() => {
     axios
-      .get(`${serverUrl}/bookings/${loggedUser._id}`)
+      .get(`${serverUrl}/bookings/${currentBooking._id}`)
       .then((response) => {
         setBookings(response.data);
         dispatch({ type: "SET_USERS_BOOKINGS", payload: response.data });
@@ -62,7 +62,7 @@ function Booking({ dispatch }) {
               <button
                 onClick={() => {
                   handleStatusChange("/matches");
-                  navigate(-1);
+                  navigate("/");
                 }}
                 className="size-md px-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 hover:drop-shadow-md duration-300 ease-in mt-2"
                 type="submit"
@@ -84,7 +84,7 @@ function Booking({ dispatch }) {
             <button
               onClick={() => {
                 handleDelete();
-                navigate("/matches");
+                navigate("/");
               }}
               className="size-md px-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 hover:drop-shadow-md duration-300 ease-in mt-2"
               type="submit"
