@@ -14,14 +14,18 @@ const axios = require("axios");
 function SwipeScreen({ dispatch }) {
   const data = useContext(UserContext);
   const usersData = data[0].usersData;
-  const filteredUsersData = usersData.filter((x) => !data[0].loggedUser.rejections.includes(x._id) && !data[0].loggedUser.selections.includes(x._id));
+  const filteredUsersData = usersData.filter(
+    (x) => !data[0].loggedUser.rejections.includes(x._id) && !data[0].loggedUser.selections.includes(x._id)
+  );
   const loggedUser = data[0].loggedUser;
-  const [loggedUserSelections, setLoggedUserSelections] = useState(loggedUser.selections);
+  // const [loggedUserSelections, setLoggedUserSelections] = useState(loggedUser.selections);
   const [reveal, setReveal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(filteredUsersData.length - 1);
   const [lastDirection, setLastDirection] = useState();
   const currentIndexRef = useRef(currentIndex);
   const [playing, setPlaying] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCurrentIndex(filteredUsersData.length - 1);
@@ -30,8 +34,6 @@ function SwipeScreen({ dispatch }) {
   useEffect(() => {
     getLoggedUser();
   }, []);
-
-  const navigate = useNavigate();
 
   function getLoggedUser() {
     axios
@@ -55,6 +57,7 @@ function SwipeScreen({ dispatch }) {
     currentIndexRef.current = val;
   };
 
+  // TODO: put the logic of adding inside the userService.js
   function processNewSelection(user) {
     const newValue = [...loggedUser.selections, user._id];
     axios
@@ -66,6 +69,7 @@ function SwipeScreen({ dispatch }) {
       .catch((error) => console.log(error));
   }
 
+  // TODO: put the logic of matching inside the userService.js
   function processNewMatch(user) {
     const chatString = Math.random().toString(34).slice(2);
     axios
@@ -79,6 +83,7 @@ function SwipeScreen({ dispatch }) {
       .catch((error) => console.log(error));
   }
 
+  // TODO: put the logic of adding to rejections inside the userService.js
   function processNewRejection(user) {
     const newValue = [...loggedUser.rejections, user._id];
     axios
@@ -94,6 +99,8 @@ function SwipeScreen({ dispatch }) {
     if (direction === "right") {
       setLastDirection(direction);
       updateCurrentIndex(index - 1);
+      // TODO: change the "user" to cardUser
+      // TODO: put each case in a different function (handleSelection, handleRejection and handleMatch)
       if (data[0].loggedUser.selections.includes(user._id) || user.selections.includes(data[0].loggedUser._id)) {
         processNewMatch(user);
         processNewSelection(user);
@@ -113,6 +120,7 @@ function SwipeScreen({ dispatch }) {
     }
   };
 
+  // TODO: see if canSwipe could be a state and update with the useEffect
   const canSwipe = currentIndex >= 0;
 
   const swipe = async (dir) => {
@@ -133,17 +141,31 @@ function SwipeScreen({ dispatch }) {
     <div className="main-container">
       <div className="cardContainer">
         {filteredUsersData &&
-          // matches.length &&
-          filteredUsersData
-            // .filter((user) => !matches.includes(user._id))
-            .map((user, index) => (
-              <>
-                <SwipeCard key={index} onSwipe={(dir) => swiped(dir, user, index)} user={user} reveal={reveal} index={index} childRefs={childRefs} playing={playing} setPlaying={setPlaying} currentIndex={currentIndex} />
-                <div className="footer">
-                  <CardFooter reveal={reveal} setReveal={setReveal} swipe={swipe} index={index} playing={playing} setPlaying={setPlaying} />
-                </div>
-              </>
-            ))}
+          filteredUsersData.map((user, index) => (
+            <>
+              <SwipeCard
+                key={index}
+                onSwipe={(dir) => swiped(dir, user, index)}
+                user={user}
+                reveal={reveal}
+                index={index}
+                childRefs={childRefs}
+                playing={playing}
+                setPlaying={setPlaying}
+                currentIndex={currentIndex}
+              />
+              <div className="footer">
+                <CardFooter
+                  reveal={reveal}
+                  setReveal={setReveal}
+                  swipe={swipe}
+                  index={index}
+                  playing={playing}
+                  setPlaying={setPlaying}
+                />
+              </div>
+            </>
+          ))}
       </div>
     </div>
   );
