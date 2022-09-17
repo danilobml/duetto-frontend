@@ -25,16 +25,17 @@ https://github.com/danilobml/duetto-backend
 https://duetto.netlify.app
 
 *Instructions to check functionalities: 
-1.first login with a "teacher" user - username: trina@gmail.com ; password: trina;
-2.Swipe right or click on the green button on the "student" Dan;
-3.On the main screen, click on the user profile (pictire on the upper-left corner). Select logout;
-4.Login with the "tudent" user Dan - username: dan@gmail.com ; password: dan;
+
+1. first login with a "teacher" user - username: trina@gmail.com ; password: trina;
+2. Swipe right or click on the green button on the "student" Dan;
+3. On the main screen, click on the user profile (pictire on the upper-left corner). Select logout;
+4. Login with the "tudent" user Dan - username: dan@gmail.com ; password: dan;
 5. 2.Swipe right or click on the green button on the "teacher" Trina;
 6. After the match, click on "check availabilities".
-7.Choose a date/time
-8.At the payment screen, type the test card number given by Stripe:  4242 4242 4242 4242
+7. Choose a date/time
+8. At the payment screen, type the test card number given by Stripe:  4242 4242 4242 4242
 Use a valid future date, such as 12/34.
 Use any three-digit CVC
-9.Go back to main (click on logo, or "Match" on the menu), and check the other screen accessible by the menu options. 
+9. Go back to main (click on logo, or "Match" on the menu), and check the other screen accessible by the menu options. 
 
 
