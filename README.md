@@ -27,10 +27,10 @@ https://duetto.netlify.app
 *Instructions to check functionalities: 
 
 1. first login with a "teacher" user, Trina - username: trina@gmail.com ; password: trina;
-2. Swipe right or click on the green button on the "student" Dan;
+2. Swipe right or click on the green button on the "student" Dan to "like" him;
 3. On the main screen, click on the user profile (pictire on the upper-left corner). Select logout;
 4. Login with the "student" user, Dan - username: dan@gmail.com ; password: dan;
-5. 2.Swipe right or click on the green button on the "teacher" Trina;
+5. Swipe right or click on the green button on the "teacher" Trina to "like" her;
 6. After the match, click on "check availabilities".
 7. Choose a date/time
 8. At the payment screen, type the test card number given by Stripe:  4242 4242 4242 4242
