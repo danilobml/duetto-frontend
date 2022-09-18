@@ -31,11 +31,10 @@ https://duetto.netlify.app
 3. On the main screen, click on the user profile (pictire on the upper-left corner). Select logout;
 4. Login with the "student" user, Dan - username: dan@gmail.com ; password: dan;
 5. Swipe right or click on the green button on the "teacher" Trina to "like" her;
-6. After the match, click on "check availabilities".
-7. Choose a date/time
-8. At the payment screen, type the test card number given by Stripe:  4242 4242 4242 4242
-Use a valid future date, such as 12/34.
-Use any three-digit CVC
-9. Go back to main (click on logo, or "Match" on the menu), and check the other screen accessible by the menu options. 
+6. After the match, click on "check availabilities";
+7. Choose a date/time for the booking from the calendar;
+8. At the payment screen, type the test card number given by Stripe:  4242 4242 4242 4242.
+Use a valid future date, such as 12/34. Use any three-digit CVC;
+9. Go back to main (click on logo, or "Match" on the hamburger menu), and check the other screens accessible through the menu options. 
 
 
